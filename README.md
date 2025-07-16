@@ -4,8 +4,8 @@ An Open-Source URL-Shortener that utilizes a microservices architecture within a
 
 ## Built with
 
-- Backend: Node, Express, TypeScript, Microservices, Apache Kafka, Redis, MongoDB
-- Dev/Infra: Turborepo, Docker
+- Backend: Node, Express, TypeScript, Apache Kafka, Redis, MongoDB
+- Dev/Infra: Microservices, Docker, Turborepo
 
 ## What's inside?
 
@@ -35,17 +35,17 @@ After that - to run all apps and packages, run the following command:
 npm run dev
 ```
 
-## Building the Applications
+## Building the Applications / Running in production mode
 
-To create the Docker Image with the Containerized apps, run
+Use the included in `package.json` command that builds all the applications and creates Docker Images with them which are bundled in a single Docker Container that effectively runs the whole application in production mode.
+
+The build steps are documented in a `.Dockerfile` on an /app level basis.
 
 ```
 npm run compose:app
 ```
 
-This command builds the apps within Docker Images and containerizes them together.
-
-... or you can just build the apps with Turborepo.
+... or you can just build the apps with Turborepo and then run them all together or individually if that's what you need.
 
 ```
 npm run build
