@@ -1,25 +1,20 @@
+# this assumes you've already run the build process. 
+# Currently setup like this because building outside Docker is WAY easier with monorepos.
+# It's not optimal - you can get Docker image rebuilds for changing dependencies in another app because of the root level package.json and package-lock.json but I'm leaving it as a TODO for now.
 services:
-  mongo:
-    image: mongo
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
     ports:
-      - "27017:27017"     # Expose MongoDB port to host
-    volumes:
-      - mongo-data:/data/db   # Persist mongo data to named volume
-  kafka:
-    image: confluentinc/cp-kafka:latest
-    ports:
-      - "9092:9092"
+      - "3000:3000"       # Adjust port if needed
     environment:
-      KAFKA_NODE_ID: 1
-      KAFKA_PROCESS_ROLES: "broker,controller"
-      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@kafka:29093"
-      KAFKA_LISTENERS: "PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:29093"
-      KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://kafka:9092"
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT"
-      KAFKA_CONTROLLER_LISTENER_NAMES: "CONTROLLER"
-      KAFKA_INTER_BROKER_LISTENER_NAME: "PLAINTEXT"
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      CLUSTER_ID: "test-cluster-id"
-
-volumes:
-  mongo-data:
+      NODE_ENV: production
+  analytics:
+    build:
+      context: .
+      dockerfile: apps/analytics/Dockerfile
+    ports:
+      - "3001:3001"       # Adjust port if needed
+    environment:
+      NODE_ENV: production
