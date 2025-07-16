@@ -1,6 +1,6 @@
 # Open-Source URL-Shortener
 
-An Open-Source URL-Shortener that utilizes a microservices architecture within a Monorepo.
+`url-shortener` is a a URL shortener that utilizes microservices, containerization, message brokers, and caching within a monorepo.
 
 ## Built with
 
