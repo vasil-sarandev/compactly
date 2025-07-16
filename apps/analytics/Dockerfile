@@ -1,4 +1,4 @@
-FROM node:22.16.0
+FROM node:22.16.0-alpine as base
 
 WORKDIR /usr/src/app
 
@@ -9,9 +9,16 @@ COPY package-lock.json ./
 # Copy the api package.json
 COPY apps/analytics/package.json ./apps/analytics/package.json
 
+# Install dependencies
 RUN npm install
 
-# Copy compiled code
-COPY apps/analytics/dist ./apps/analytics/dist
+# Copy the app
+COPY apps/analytics ./apps/analytics
+# Copy the shared packages
+COPY packages ./packages
 
-CMD [ "node", "apps/analytics/dist/app.js" ]
+WORKDIR /usr/src/app/apps/analytics
+
+RUN npx tsc && npx tsc-alias
+
+CMD [ "node", "dist/app.js" ]

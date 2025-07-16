@@ -1,4 +1,4 @@
-FROM node:22.16.0
+FROM node:22.16.0-alpine as base
 
 WORKDIR /usr/src/app
 
@@ -9,9 +9,16 @@ COPY package-lock.json ./
 # Copy the api package.json
 COPY apps/api/package.json ./apps/api/package.json
 
+# Install dependencies
 RUN npm install
 
-# Copy compiled code
-COPY apps/api/dist ./apps/api/dist
+# Copy the app
+COPY apps/api ./apps/api
+# Copy the shared packages
+COPY packages ./packages
 
-CMD [ "node", "apps/api/dist/app.js" ]
+WORKDIR /usr/src/app/apps/api
+
+RUN npx tsc && npx tsc-alias
+
+CMD [ "node", "dist/app.js" ]

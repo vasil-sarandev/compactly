@@ -1,6 +1,3 @@
-# this assumes you've already run the build process. 
-# Currently setup like this because building outside Docker is WAY easier with monorepos.
-# It's not optimal - you can get Docker image rebuilds for changing dependencies in another app because of the root level package.json and package-lock.json but I'm leaving it as a TODO for now.
 services:
   api:
     build:

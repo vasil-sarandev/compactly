@@ -19,8 +19,6 @@ For a more convenient Developer Experience, a _docker-compose_ file (docker-comp
 
 The applications are containerized and naturally - the production _docker-compose_ file (docker-compose.yaml) doesn't include the shared services. Supposedly you have them running in the cloud or on a VPS at this point.
 
-The Build Step happens outside of Docker at this point because it's much easier to setup in Monorepos. (Moving the builds there and using Turborepo's `prune` method to ensure images only feature exactly what they need is a TODO).
-
 ## Running the Applications
 
 Use the `.env.sample` file and create `.env` files in the specific application folders.
@@ -39,16 +37,18 @@ npm run dev
 
 ## Building the Applications
 
-To build all apps and packages, run the following command:
-
-```
-npm run build
-```
-
-To create the Docker Image with the Containerized apps (after running the build command), run
+To create the Docker Image with the Containerized apps, run
 
 ```
 npm run compose:app
+```
+
+This command builds the apps within Docker Images and containerizes them together.
+
+... or you can just build the apps with Turborepo.
+
+```
+npm run build
 ```
 
 ## Turborepo Documentation
