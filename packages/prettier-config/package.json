@@ -1,0 +1,10 @@
+{
+  "name": "@repo/prettier-config",
+  "description": "Shared prettier config for individual apps",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "exports": {
+    ".": "./prettier.config.js"
+  }
+}

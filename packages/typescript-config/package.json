@@ -1,9 +1,10 @@
 {
   "name": "@repo/typescript-config",
+  "description": "Shared typescript config for individual apps",
   "version": "0.0.0",
+  "type": "module",
   "private": true,
-  "license": "MIT",
-  "publishConfig": {
-    "access": "public"
+  "exports": {
+    ".": "./config.json"
   }
 }

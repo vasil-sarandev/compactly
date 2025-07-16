@@ -1,5 +1,6 @@
 {
   "name": "url-shortener",
+  "author": "Vasil Sarandev",
   "private": true,
   "scripts": {
     "build": "turbo run build",
@@ -9,6 +10,10 @@
     "check-types": "turbo run check-types"
   },
   "devDependencies": {
+    "@repo/eslint-config": "^0.0.0",
+    "@repo/prettier-config": "^0.0.0",
+    "@repo/typescript-config": "^0.0.0",
+    "eslint": "^9.31.0",
     "prettier": "^3.6.2",
     "turbo": "^2.5.4",
     "typescript": "5.8.3"
