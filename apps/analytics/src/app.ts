@@ -1,6 +1,6 @@
 import express from 'express';
 
-const PORT = 3000;
+const PORT = 3001;
 
 const app = express();
 
@@ -14,5 +14,5 @@ app.listen(PORT, '0.0.0.0', () => {
 });
 
 app.get('/', (req, res) => {
-  res.send('Hello from API');
+  res.send('Hello from Analytics');
 });
