@@ -6,7 +6,7 @@ WORKDIR /usr/src/app
 COPY package.json ./
 COPY package-lock.json ./
 
-# Copy the api package.json
+# Copy the application package.json
 COPY apps/analytics/package.json ./apps/analytics/package.json
 
 # Install dependencies

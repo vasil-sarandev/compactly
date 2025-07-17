@@ -1,4 +1,4 @@
-import basePrettier from '@repo/prettier-config';
+import basePrettier from '@config/prettier-config';
 
 export default {
   ...basePrettier,
