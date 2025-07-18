@@ -10,9 +10,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.listen(PORT, '0.0.0.0', () => {
-  return console.log(`Analytics is listening at http://localhost:${PORT}`);
+  return console.log(`Pool-manager is listening at http://localhost:${PORT}`);
 });
 
 app.get('/', (req, res) => {
-  res.send('Hello from Analytics');
+  res.send('Hello from Pool Manager');
 });

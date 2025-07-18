@@ -9,15 +9,28 @@
 
 ## What's inside?
 
-- `apps/analytics`: a NodeJS microservice that consumes Kafka Messages and handles the analytics updates to the database
+### Applications
+
 - `apps/api`: the NodeJS server that exposes an API that covers the business requirements for a functional URL Shortener
-- `/packages` - shared config/packages between the apps.
+- `apps/pool-manager`: a NodeJS microservice that takes care of refilling the pool with available slugs for short urls. It consumes Kafka messages which are published by the `apps/api` to know when to do so .
+- `apps/analytics`: a NodeJS microservice that consumes Kafka Messages published by the `apps/api` and handles the analytics updates to the database.
+
+### Packages
+
+Shared Configs/Packages between the apps.
+
+- `/packages/models` - shared models & schemas between the main server and microservices.
+- `packages/eslint-config` - shared eslint config for all JavaScript/TypeScript applications & packages.
+- `packages/typescript-config` - shared eslint config for all TypeScript applications & packages.
+- `packages/prettier-config` - shared eslint config for all projects.
 
 ## Docker Compose setups
 
 For a more convenient Developer Experience, a _docker-compose_ file (docker-compose.services.yaml) is included that spins up the shared services between the applications so you don't need to install or run them locally.
 
 The applications are containerized and naturally - the production _docker-compose_ file (docker-compose.yaml) doesn't include the shared services. Supposedly you have them running in the cloud or on a VPS at this point.
+
+The docker images for apps are build using Turbo's built in `prune` method that provides us a stripped-down monorepo that only contains the relevant to the specific application files and package.json / package-lock.json. This ensures that installing new dependencies in different apps/packages won't result in different hashes for all application images.
 
 ## Running the Applications
 

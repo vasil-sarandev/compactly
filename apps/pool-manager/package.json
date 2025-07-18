@@ -1,0 +1,23 @@
+{
+  "name": "@apps/pool-manager",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npx tsx watch src/app.ts",
+    "build": "npx tsc && npx tsc-alias",
+    "start": "node dist/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@confluentinc/kafka-javascript": "^1.4.0",
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "tsc-alias": "^1.8.16",
+    "tsx": "^4.20.3"
+  }
+}

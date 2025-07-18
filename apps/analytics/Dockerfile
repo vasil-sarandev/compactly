@@ -1,24 +1,29 @@
-FROM node:22.16.0-alpine as base
-
+FROM node:22.16.0-alpine AS base
+# set working directory
 WORKDIR /usr/src/app
 
-# Copy root package.json and lockfile
-COPY package.json ./
-COPY package-lock.json ./
+# --------- PREPARE stage
+FROM base AS prepare
+# install turbo
+RUN npm install -g turbo@2
+# copy the whole monorepo
+COPY . .
+# run turbo prune and only leave the relevant files inside. This creates an /out folder with the correct package.json(s)
+RUN turbo prune @apps/analytics --docker
 
-# Copy the application package.json
-COPY apps/analytics/package.json ./apps/analytics/package.json
-
-# Install dependencies
+# --------- BUILDER stage
+FROM base AS builder
+# Copy only JSON files needed for installing deps
+COPY --from=prepare /usr/src/app/out/json/ .
+# install the dependencies
 RUN npm install
+# copy app source from the prepare stage
+COPY --from=prepare /usr/src/app/out/full .
+# build the app
+RUN npm run build
 
-# Copy the app
-COPY apps/analytics ./apps/analytics
-# Copy the shared packages
-COPY packages ./packages
-
-WORKDIR /usr/src/app/apps/analytics
-
-RUN npx tsc && npx tsc-alias
-
-CMD [ "node", "dist/app.js" ]
+# --------- RUNNER stage
+FROM base AS runner
+COPY --from=builder /usr/src/app .
+# run the app
+CMD [ "node", "apps/analytics/dist/app.js" ]

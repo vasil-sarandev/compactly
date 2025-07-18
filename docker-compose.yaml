@@ -12,6 +12,14 @@ services:
       context: .
       dockerfile: apps/analytics/Dockerfile
     ports:
-      - "3001:3001"       # Adjust port if needed
+      - "3001:3000"       # Adjust port if needed
+    environment:
+      NODE_ENV: production
+  pool-manager:
+    build:
+      context: .
+      dockerfile: apps/pool-manager/Dockerfile
+    ports:
+      - "3002:3000"       # Adjust port if needed
     environment:
       NODE_ENV: production

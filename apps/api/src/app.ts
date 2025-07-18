@@ -12,7 +12,7 @@ const setupServer = () => {
   app.use(express.urlencoded({ extended: true }));
 
   app.listen(PORT, '0.0.0.0', () => {
-    return console.log(`Express is listening at http://localhost:${PORT}`);
+    return console.log(`API is listening at http://localhost:${PORT}`);
   });
 
   app.get('/', (req, res) => {
