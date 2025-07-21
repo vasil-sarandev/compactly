@@ -10,20 +10,27 @@ RUN npm install -g turbo@2
 COPY . .
 # run turbo prune and only leave the relevant files inside. This creates an /out folder with the correct package.json(s)
 RUN turbo prune @apps/analytics --docker
+# install the dependencies
+RUN npm install
 
 # --------- BUILDER stage
 FROM base AS builder
-# Copy only JSON files needed for installing deps
-COPY --from=prepare /usr/src/app/out/json/ .
-# install the dependencies
-RUN npm install
-# copy app source from the prepare stage
-COPY --from=prepare /usr/src/app/out/full .
+# copy pruned app source and node_modules from the prepare stage
+COPY --from=prepare /usr/src/app/out/full ./
+COPY --from=prepare /usr/src/app/node_modules ./node_modules
 # build the app
-RUN npm run build
+RUN npm run turbo:build
 
 # --------- RUNNER stage
 FROM base AS runner
 COPY --from=builder /usr/src/app .
 # run the app
 CMD [ "node", "apps/analytics/dist/app.js" ]
+
+# --------- DEVELOPMENT stage
+FROM base AS dev
+# copy pruned app source and node_modules from the prepare stage
+COPY --from=prepare /usr/src/app/out/full ./
+COPY --from=prepare /usr/src/app/node_modules ./node_modules
+# run in development mode with hot reload
+CMD ["npx", "tsx", "watch", "./apps/analytics/src/app.ts"]

@@ -9,7 +9,7 @@ app.use(express.json());
 // parse forms
 app.use(express.urlencoded({ extended: true }));
 
-app.listen(PORT, '0.0.0.0', () => {
+app.listen(PORT, () => {
   return console.log(`Analytics is listening at http://localhost:${PORT}`);
 });
 

@@ -1,0 +1,67 @@
+services:
+  api:
+    image: api-dev
+    build:
+      context: .
+      target: dev
+      dockerfile: apps/api/Dockerfile
+    volumes:
+      - ./apps/api:/usr/src/app/apps/api  # Mount app source directory inside container so HMR works
+      - /usr/src/app/node_modules  # Prevent overwriting node_modules inside container
+    ports:
+      - '3000:3000'
+    depends_on:
+      - mongo
+      - kafka
+  analytics:
+    image: analytics-dev
+    build:
+      context: .
+      target: dev
+      dockerfile: apps/analytics/Dockerfile
+    volumes:
+      - ./apps/analytics:/usr/src/app/apps/analytics  # Mount app source directory inside container so HMR works
+      - /usr/src/app/node_modules  # Prevent overwriting node_modules inside container
+    ports:
+      - '3001:3000'
+    depends_on:
+      - mongo
+      - kafka
+  pool-manager:
+    image: pool-manager-dev
+    build:
+      context: .
+      target: dev
+      dockerfile: apps/pool-manager/Dockerfile
+    volumes:
+      - ./apps/pool-manager:/usr/src/app/apps/pool-manager  # Mount app source directory inside container so HMR works
+      - /usr/src/app/node_modules  # Prevent overwriting node_modules inside container
+    ports:
+      - '3002:3000'
+    depends_on:
+      - mongo
+      - kafka
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"     # Expose MongoDB port to host
+    volumes:
+      - mongo-data:/data/db   # Persist mongo data to named volume
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: "broker,controller"
+      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@kafka:29093"
+      KAFKA_LISTENERS: "PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:29093"
+      KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://kafka:9092"
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT"
+      KAFKA_CONTROLLER_LISTENER_NAMES: "CONTROLLER"
+      KAFKA_INTER_BROKER_LISTENER_NAME: "PLAINTEXT"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      CLUSTER_ID: "test-cluster-id"
+
+volumes:
+  mongo-data:

@@ -3,13 +3,13 @@
   "author": "Vasil Sarandev",
   "private": true,
   "scripts": {
-    "compose:services": "docker compose -f docker-compose.services.yaml up --build",
-    "compose:app": "docker compose -f docker-compose.yaml up --build",
-    "build": "turbo run build",
-    "dev": "turbo run dev",
-    "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "check-types": "turbo run check-types"
+    "dev": "docker compose -f docker-compose.dev.yaml up --build -d",
+    "build": "docker compose -f docker-compose.yaml up --build",
+    "turbo:dev": "turbo run dev",
+    "turbo:build": "turbo run build",
+    "turbo:lint": "turbo run lint",
+    "turbo:check-types": "turbo run check-types",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
     "@config/eslint-config": "^0.0.0",

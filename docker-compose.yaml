@@ -1,24 +1,30 @@
 services:
   api:
+    image: api-prod
     build:
       context: .
       dockerfile: apps/api/Dockerfile
+      target: runner
     ports:
       - "3000:3000"       # Adjust port if needed
     environment:
       NODE_ENV: production
   analytics:
+    image: analytics-prod
     build:
       context: .
       dockerfile: apps/analytics/Dockerfile
+      target: runner
     ports:
       - "3001:3000"       # Adjust port if needed
     environment:
       NODE_ENV: production
   pool-manager:
+    image: pool-manager-prod
     build:
       context: .
       dockerfile: apps/pool-manager/Dockerfile
+      target: runner
     ports:
       - "3002:3000"       # Adjust port if needed
     environment:
