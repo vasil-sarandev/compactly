@@ -13,6 +13,8 @@ services:
     depends_on:
       - mongo
       - kafka
+    networks:
+      - internal-net
   analytics:
     image: analytics-dev
     build:
@@ -27,6 +29,8 @@ services:
     depends_on:
       - mongo
       - kafka
+    networks:
+      - internal-net
   pool-manager:
     image: pool-manager-dev
     build:
@@ -41,14 +45,20 @@ services:
     depends_on:
       - mongo
       - kafka
+    networks:
+      - internal-net
   mongo:
     image: mongo
     ports:
       - "27017:27017"     # Expose MongoDB port to host
     volumes:
       - mongo-data:/data/db   # Persist mongo data to named volume
+    networks:
+      - internal-net
   kafka:
     image: confluentinc/cp-kafka:latest
+    hostname: kafka
+    container_name: kafka
     ports:
       - "9092:9092"
     environment:
@@ -62,6 +72,12 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: "PLAINTEXT"
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       CLUSTER_ID: "test-cluster-id"
+    networks:
+      - internal-net
 
 volumes:
   mongo-data:
+
+networks:
+  internal-net:
+    driver: bridge

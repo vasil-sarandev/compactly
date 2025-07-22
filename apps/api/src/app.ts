@@ -1,9 +1,9 @@
 import express from 'express';
-import { setupWithMongoose } from './lib/mongoose';
+import { setupAppServices } from './services/setup-services';
 
 const port = process.env.PORT as string;
 
-const setupServer = () => {
+const createServerCallback = () => {
   const app = express();
 
   // parse jsons
@@ -20,4 +20,4 @@ const setupServer = () => {
   });
 };
 
-setupWithMongoose(setupServer);
+setupAppServices(createServerCallback);
