@@ -2,9 +2,6 @@
   "name": "@shared/models",
   "description": "Shared models between services",
   "version": "1.0.0",
-  "exports": {
-    ".": "./index"
-  },
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc -b",
