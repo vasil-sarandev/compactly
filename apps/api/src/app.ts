@@ -1,7 +1,7 @@
 import express from 'express';
 import { setupWithMongoose } from './lib/mongoose';
 
-const PORT = 3000;
+const port = process.env.PORT as string;
 
 const setupServer = () => {
   const app = express();
@@ -11,8 +11,8 @@ const setupServer = () => {
   // parse forms
   app.use(express.urlencoded({ extended: true }));
 
-  app.listen(PORT, '0.0.0.0', () => {
-    return console.log(`API is listening at http://localhost:${PORT}`);
+  app.listen(port, () => {
+    return console.log(`API is listening at http://localhost:${port}`);
   });
 
   app.get('/', (req, res) => {

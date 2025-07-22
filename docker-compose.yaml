@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: apps/api/Dockerfile
-      target: runner
+      target: prod
     ports:
       - "3000:3000"       # Adjust port if needed
     environment:
@@ -14,7 +14,7 @@ services:
     build:
       context: .
       dockerfile: apps/analytics/Dockerfile
-      target: runner
+      target: prod
     ports:
       - "3001:3000"       # Adjust port if needed
     environment:
@@ -24,7 +24,7 @@ services:
     build:
       context: .
       dockerfile: apps/pool-manager/Dockerfile
-      target: runner
+      target: prod
     ports:
       - "3002:3000"       # Adjust port if needed
     environment:

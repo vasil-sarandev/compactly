@@ -1,6 +1,6 @@
 import express from 'express';
 
-const PORT = 3000;
+const port = process.env.PORT as string;
 
 const app = express();
 
@@ -9,8 +9,8 @@ app.use(express.json());
 // parse forms
 app.use(express.urlencoded({ extended: true }));
 
-app.listen(PORT, () => {
-  return console.log(`Pool manager is listening at http://localhost:${PORT}`);
+app.listen(port, () => {
+  return console.log(`Pool manager is listening at http://localhost:${port}`);
 });
 
 app.get('/', (req, res) => {

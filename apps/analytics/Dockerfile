@@ -21,16 +21,20 @@ COPY --from=prepare /usr/src/app/node_modules ./node_modules
 # build the app
 RUN npm run turbo:build
 
-# --------- RUNNER stage
-FROM base AS runner
+# --------- PROD stage
+FROM base AS prod
 COPY --from=builder /usr/src/app .
+# copy the prod env file
+COPY /apps/analytics/.env .
 # run the app
-CMD [ "node", "apps/analytics/dist/app.js" ]
+CMD [ "node", "--env-file=.env", "apps/analytics/dist/app.js" ]
 
 # --------- DEVELOPMENT stage
 FROM base AS dev
 # copy pruned app source and node_modules from the prepare stage
 COPY --from=prepare /usr/src/app/out/full ./
 COPY --from=prepare /usr/src/app/node_modules ./node_modules
+# copy the local env file
+COPY /apps/analytics/.env.local .
 # run in development mode with hot reload
-CMD ["npx", "tsx", "watch", "./apps/analytics/src/app.ts"]
+CMD ["npx", "tsx", "watch", "--env-file=.env.local", "./apps/analytics/src/app.ts"]
