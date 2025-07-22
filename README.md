@@ -19,10 +19,20 @@
 
 Shared Configs/Packages between the apps.
 
-- `/packages/models` - shared models & schemas between the main server and microservices.
+- `packages/models` - shared models & schemas between the main server and microservices.
 - `packages/eslint-config` - shared eslint config for all JavaScript/TypeScript applications & packages.
 - `packages/typescript-config` - shared eslint config for all TypeScript applications & packages.
 - `packages/prettier-config` - shared eslint config for all projects.
+
+## Prerequisites
+
+The default run/build commands for the monorepo use containers.
+
+Commands are also exposed that run/build the monorepo without Docker, but you'd have a much easier time running all the applications and shared services by making sure you have Docker installed.
+
+The development Docker compose file also runs images for the shared services like Kafka & Mongo, so you don't have to install/configure these on your machine.
+
+[Docker Desktop - docker.com](https://www.docker.com/products/docker-desktop/)
 
 ## Docker Compose setups
 
