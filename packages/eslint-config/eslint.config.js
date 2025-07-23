@@ -1,16 +1,17 @@
+import globals from "globals";
 import js from "@eslint/js";
 import json from "@eslint/json";
-import tseslint from "@typescript-eslint/eslint-plugin";
 import tsParser from "@typescript-eslint/parser";
+import tseslint from "@typescript-eslint/eslint-plugin";
+import eslintPluginImport from "eslint-plugin-import";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
 import turbo from "eslint-plugin-turbo";
-import globals from "globals";
 import { defineConfig } from "eslint/config";
 
 export default defineConfig([
   // Base JS/TS support
   {
-    files: ["**/*.{js,mjs,cjs,ts,mts,cts}"],
+    files: ["*.{js,ts}", "**/*.{js,mjs,cjs,ts,mts,cts}"],
     languageOptions: {
       parser: tsParser,
       parserOptions: {
@@ -21,10 +22,24 @@ export default defineConfig([
     },
     plugins: {
       "@typescript-eslint": tseslint,
+      "eslint-plugin-import": eslintPluginImport,
       js,
     },
     rules: {
       ...tseslint.configs.recommended.rules,
+      "eslint-plugin-import/order": [
+        "error",
+        {
+          groups: [
+            "builtin",
+            "external",
+            "internal",
+            "parent",
+            "sibling",
+            "index",
+          ],
+        },
+      ],
     },
   },
 

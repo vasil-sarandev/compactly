@@ -1,18 +1,22 @@
 import express from 'express';
+import { PORT } from './env-constants';
+import { setupApplication } from '@/lib/setup';
 
-const port = process.env.PORT as string;
+const createServerCallback = () => {
+  const app = express();
 
-const app = express();
+  // parse jsons
+  app.use(express.json());
+  // parse forms
+  app.use(express.urlencoded({ extended: true }));
 
-// parse jsons
-app.use(express.json());
-// parse forms
-app.use(express.urlencoded({ extended: true }));
+  app.listen(PORT, () => {
+    return console.log(`Pool Manager is listening at http://localhost:${PORT}`);
+  });
 
-app.listen(port, () => {
-  return console.log(`Pool manager is listening at http://localhost:${port}`);
-});
+  app.get('/', (req, res) => {
+    res.send('Hello from Pool Manager');
+  });
+};
 
-app.get('/', (req, res) => {
-  res.send('Hello from Pool Manager');
-});
+setupApplication(createServerCallback);

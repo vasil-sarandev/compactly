@@ -13,10 +13,13 @@
   "description": "",
   "dependencies": {
     "@confluentinc/kafka-javascript": "^1.4.0",
-    "express": "^5.1.0"
+    "@shared/util": "^1.0.0",
+    "express": "^5.1.0",
+    "mongoose": "^8.16.4"
   },
   "devDependencies": {
     "@types/express": "^5.0.3",
+    "@types/mongoose": "^5.11.96",
     "tsc-alias": "^1.8.16",
     "tsx": "^4.20.3"
   }

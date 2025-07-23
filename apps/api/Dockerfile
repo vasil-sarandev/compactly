@@ -24,17 +24,21 @@ RUN npm run turbo:build
 # --------- PROD stage
 FROM base AS prod
 COPY --from=builder /usr/src/app .
-# copy the prod env file
+# set working directory to app
+WORKDIR /usr/src/app/apps/api
+# copy the env file
 COPY /apps/api/.env .
-# run the app
-CMD [ "node", "--env-file=.env", "apps/api/dist/app.js" ]
+# run the compiled app
+CMD [ "node", "--env-file=.env", "dist/app.js" ]
 
 # --------- DEVELOPMENT stage
 FROM base AS dev
 # copy pruned app source and node_modules from the prepare stage
 COPY --from=prepare /usr/src/app/out/full ./
 COPY --from=prepare /usr/src/app/node_modules ./node_modules
-# copy the local env file
+# set working directory to app
+WORKDIR /usr/src/app/apps/api
+# copy the env file
 COPY /apps/api/.env.local .
 # run in development mode with hot reload
-CMD ["npx", "tsx", "watch", "--env-file=.env.local", "./apps/api/src/app.ts"]
+CMD ["npx", "tsx", "watch", "--env-file=.env.local", "./src/app.ts"]

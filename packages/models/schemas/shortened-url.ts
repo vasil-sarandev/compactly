@@ -1,17 +1,7 @@
-import { model, Schema } from 'mongoose';
+import { InferSchemaType, model, Schema } from 'mongoose';
 
-export interface IShortenedURL {
-  _id: Schema.Types.ObjectId;
-  slug: string;
-  target_url: string;
-  owner_id: Schema.Types.ObjectId;
-  createdAt: string; // system field
-  updatedAt: string; // system field
-}
-
-const shortenedURLSchema = new Schema<IShortenedURL>(
+const shortenedURLSchema = new Schema(
   {
-    _id: Schema.Types.ObjectId,
     slug: {
       type: String,
       required: true,
@@ -35,5 +25,7 @@ const shortenedURLSchema = new Schema<IShortenedURL>(
   },
   { timestamps: true },
 );
+
+export type IShortenedURL = InferSchemaType<typeof shortenedURLSchema>;
 
 export const ShortenedURL = model('ShortenedURL', shortenedURLSchema);

@@ -1,21 +1,12 @@
-import { model, Schema } from 'mongoose';
+import { InferSchemaType, model, Schema } from 'mongoose';
 
 export enum SlugPoolType {
   default = 'DEFAULT',
   reserved = 'RESERVED',
 }
 
-export interface ISlugPoolStat {
-  _id: Schema.Types.ObjectId;
-  type: SlugPoolType;
-  availableCount: Schema.Types.Number;
-  createdAt: string; // system field
-  updatedAt: string; // system field
-}
-
-const slugPoolStatSchema = new Schema<ISlugPoolStat>(
+const slugPoolStatSchema = new Schema(
   {
-    _id: Schema.Types.ObjectId,
     type: {
       type: String,
       unique: true,
@@ -26,8 +17,14 @@ const slugPoolStatSchema = new Schema<ISlugPoolStat>(
         message: 'Unsupported slug type.',
       },
     },
+    availableCount: {
+      type: Number,
+      required: true,
+    },
   },
   { timestamps: true },
 );
+
+export type ISlugPoolStat = InferSchemaType<typeof slugPoolStatSchema>;
 
 export const SlugPoolStat = model('SlugPoolStat', slugPoolStatSchema);

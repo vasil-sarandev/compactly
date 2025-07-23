@@ -1,7 +1,6 @@
 import express from 'express';
-import { setupAppServices } from './services/setup-services';
-
-const port = process.env.PORT as string;
+import { PORT } from './env-constants';
+import { setupApplication } from '@/lib/setup';
 
 const createServerCallback = () => {
   const app = express();
@@ -11,8 +10,8 @@ const createServerCallback = () => {
   // parse forms
   app.use(express.urlencoded({ extended: true }));
 
-  app.listen(port, () => {
-    return console.log(`API is listening at http://localhost:${port}`);
+  app.listen(PORT, () => {
+    return console.log(`API is listening at http://localhost:${PORT}`);
   });
 
   app.get('/', (req, res) => {
@@ -20,4 +19,4 @@ const createServerCallback = () => {
   });
 };
 
-setupAppServices(createServerCallback);
+setupApplication(createServerCallback);

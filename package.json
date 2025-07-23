@@ -17,6 +17,7 @@
     "@config/typescript-config": "^0.0.0",
     "eslint": "^9.31.0",
     "prettier": "^3.6.2",
+    "tsconfig-paths": "^4.2.0",
     "turbo": "^2.5.4",
     "typescript": "5.8.3"
   },
