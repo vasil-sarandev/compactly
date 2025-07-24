@@ -1,6 +1,6 @@
-# Open-Source URL-Shortener
+# Compactly - OSS URL Shortener
 
-`url-shortener` is a a URL shortener that utilizes microservices, containerization, message brokers, and caching within a monorepo.
+`compactly` is an Open-Source URL Shortener that utilizes microservices, containerization, message brokers, and caching within a monorepo.
 
 ## Built with
 
