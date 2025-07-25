@@ -20,7 +20,6 @@ const shortenedURLSchema = new Schema(
     owner_id: {
       type: Schema.Types.ObjectId,
       ref: 'User',
-      required: true,
     },
   },
   { timestamps: true },
