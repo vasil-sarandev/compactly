@@ -16,11 +16,17 @@ export class AppError extends Error implements IAppError {
   }
 }
 
-export const errorMiddleware = (err: AppError, req: Request, res: Response, next: NextFunction) => {
+export const errorMiddleware = (
+  err: AppError | Error,
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   if (!err) {
     next();
   }
-  const status = err.status ?? 500;
+
+  const status = err instanceof AppError ? err.status : 500;
   const message = err.message ?? UNEXPECTED_ERROR_MSG;
 
   kafka.send({
