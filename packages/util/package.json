@@ -2,7 +2,7 @@
   "name": "@shared/util",
   "description": "Shared utilities between applications",
   "version": "1.0.0",
-  "main": "dist/index.js",
+  "main": "index.ts",
   "scripts": {
     "build": "tsc -b",
     "test": "echo \"Error: no test specified\" && exit 1"

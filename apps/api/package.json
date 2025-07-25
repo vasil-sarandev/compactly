@@ -1,7 +1,7 @@
 {
   "name": "@apps/api",
   "version": "1.0.0",
-  "main": "dist/app.js",
+  "main": "src/app.ts",
   "scripts": {
     "dev": "npx tsx watch --env-file=.env.local src/app.ts",
     "build": "npx tsc && npx tsc-alias",
