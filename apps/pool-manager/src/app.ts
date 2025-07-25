@@ -2,7 +2,9 @@ import express from 'express';
 import { PORT } from './env-constants';
 import { setupApplication } from '@/lib/setup';
 
-const createServerCallback = () => {
+const startServer = async () => {
+  await setupApplication();
+
   const app = express();
 
   // parse jsons
@@ -19,4 +21,4 @@ const createServerCallback = () => {
   });
 };
 
-setupApplication(createServerCallback);
+startServer();
