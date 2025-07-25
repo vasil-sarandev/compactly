@@ -4,11 +4,7 @@ import { kafka } from '@/services/kafka';
 
 const UNEXPECTED_ERROR_MSG = 'An unexpected error has ocurred.';
 
-export interface IAppError extends Error {
-  status: number;
-}
-
-export class AppError extends Error implements IAppError {
+export class AppError extends Error {
   status: number;
   constructor(status: number, message: string) {
     super(message);
