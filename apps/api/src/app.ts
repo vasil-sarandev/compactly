@@ -22,10 +22,6 @@ const startServer = async () => {
   app.listen(PORT, () => {
     return console.log(`API is listening at http://localhost:${PORT}`);
   });
-
-  app.get('/', (req, res) => {
-    res.send('Hello from API');
-  });
 };
 
 startServer();

@@ -1,8 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { AppError } from './error';
-
-const JWT_SECRET = process.env.JWT_SECRET as string;
+import { JWT_SECRET } from '@/env-constants';
 
 export interface IAuthenticatedRequest extends Request {
   user?: JwtPayload;
