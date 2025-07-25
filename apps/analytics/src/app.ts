@@ -1,18 +1,9 @@
-import express from 'express';
+import { setupApplication } from '@/setup';
 
-const port = process.env.PORT as string;
+const startApplication = async () => {
+  await setupApplication();
 
-const app = express();
+  console.log('Analytics is running and waiting for messages');
+};
 
-// parse jsons
-app.use(express.json());
-// parse forms
-app.use(express.urlencoded({ extended: true }));
-
-app.listen(port, () => {
-  return console.log(`Analytics is listening at http://localhost:${port}`);
-});
-
-app.get('/', (req, res) => {
-  res.send('Hello from Analytics');
-});
+startApplication();

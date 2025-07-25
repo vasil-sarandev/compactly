@@ -53,7 +53,7 @@ Then run the `dev` command that uses Docker and the `./docker-compose.dev.yaml` 
 npm run dev
 ```
 
-Alternatively if you don't want to run with Docker for some reason - install the dependencies and use turbo's dev command. You will however need to adjust the ports for the apps because they're all currently listening @ 3000 which will result in conflicts with ports.
+Alternatively if you don't want to run with Docker for some reason - install the dependencies and use turbo's dev command. Reminder - you'll have to configure and run the shared services on your local machine (MongoDB, Kafka, Redis, ...etc)
 
 ```
 npm install && npm run turbo:dev

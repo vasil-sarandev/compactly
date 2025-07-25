@@ -1,6 +1,6 @@
 import express from 'express';
 import { PORT } from './env-constants';
-import { setupApplication } from '@/lib/setup';
+import { setupApplication } from '@/setup';
 
 const startServer = async () => {
   await setupApplication();

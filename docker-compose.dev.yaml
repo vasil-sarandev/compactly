@@ -24,8 +24,6 @@ services:
     volumes:
       - ./apps/analytics:/usr/src/app/apps/analytics  # Mount app source directory inside container so HMR works
       - /usr/src/app/node_modules  # Prevent overwriting node_modules inside container
-    ports:
-      - '3001:3000'
     depends_on:
       - mongo
       - kafka
@@ -40,8 +38,6 @@ services:
     volumes:
       - ./apps/pool-manager:/usr/src/app/apps/pool-manager  # Mount app source directory inside container so HMR works
       - /usr/src/app/node_modules  # Prevent overwriting node_modules inside container
-    ports:
-      - '3002:3000'
     depends_on:
       - mongo
       - kafka
