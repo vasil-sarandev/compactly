@@ -3,7 +3,7 @@ import { PORT } from './env-constants';
 import { appRouter } from './components/app-router';
 import { errorMiddleware } from './middlewares/error';
 import { loggerMiddleware } from './middlewares/logger';
-import { setupApplication } from '@/setup';
+import { setupApplication } from './setup-app';
 
 const startServer = async () => {
   await setupApplication();

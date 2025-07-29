@@ -1,6 +1,6 @@
 import { KAFKA_ERRORS_TOPIC } from '@shared/util';
 import { Request, Response, NextFunction } from 'express';
-import { kafka } from '@/services/kafka';
+import { kafka } from '@/lib/kafka';
 
 const UNEXPECTED_ERROR_MSG = 'An unexpected error has ocurred.';
 

@@ -5,7 +5,7 @@ export interface IShortenURLRepository {
   createShortenedURL: (data: IShortenedURL) => Promise<IShortenedURL>;
 }
 
-class ShortenerRepository implements IShortenURLRepository {
+class ShortenUrlRepository implements IShortenURLRepository {
   constructor() {}
 
   getShortenedURL = async (slug: string) => ShortenedURL.findOne({ slug: slug }).lean();
@@ -16,4 +16,4 @@ class ShortenerRepository implements IShortenURLRepository {
   };
 }
 
-export const shortenerRepository = new ShortenerRepository();
+export const shortenerRepository = new ShortenUrlRepository();

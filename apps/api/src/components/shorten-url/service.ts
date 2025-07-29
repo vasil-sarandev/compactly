@@ -4,7 +4,7 @@ import { KAFKA_SLUG_POOL_LOW_COUNT_TOPIC, SLUG_POOL_LOW_THRESHHOLD_COUNT } from 
 import { IShortenURLRepository, shortenerRepository } from './repository';
 import { recursivelyFindAnAvailableSlug } from './helpers/find-available-slug';
 import { AppError } from '@/middlewares/error';
-import { kafka } from '@/services/kafka';
+import { kafka } from '@/lib/kafka';
 
 interface ICreateShortenedURLPayload {
   user?: JwtPayload;

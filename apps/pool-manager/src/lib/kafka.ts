@@ -5,7 +5,7 @@ import {
   KAFKA_SLUG_POOL_LOW_COUNT_TOPIC,
 } from '@shared/util';
 import { KAFKA_BOOTSTRAP_SERVER } from '@/env-constants';
-import { handleSlugPoolLowCount } from '@/handlers/low-count-topic';
+import { handleSlugPoolLowCount } from '@/consumers/low-count-topic';
 
 const kafkaConsumer = new KafkaJS.Kafka().consumer({
   'bootstrap.servers': KAFKA_BOOTSTRAP_SERVER,

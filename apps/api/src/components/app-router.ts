@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { shortenerRouter } from './shorten-url/router';
+import { shortenUrlRouter } from './shorten-url/router';
 
 export const appRouter = Router();
 
-appRouter.use('/shorten-url', shortenerRouter);
+appRouter.use('/shorten-url', shortenUrlRouter);

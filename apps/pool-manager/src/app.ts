@@ -1,4 +1,4 @@
-import { setupApplication } from '@/setup';
+import { setupApplication } from './setup-app';
 
 const startApplication = async () => {
   await setupApplication();
