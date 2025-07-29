@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response } from 'express';
-import { shortenerService } from './service';
+import { shortenURLService } from './service';
 import { IAuthenticatedRequest } from '@/middlewares/auth';
 
-class ShortenerController {
+class ShortenURLController {
   createAnonymousShortenedURL = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const newShortenedUrl = await shortenerService.createShortenedUrl({
+      const newShortenedUrl = await shortenURLService.createShortenedUrl({
         targetUrl: req.body.targetUrl,
       });
       res.status(200).json(newShortenedUrl);
@@ -19,7 +19,7 @@ class ShortenerController {
     next: NextFunction,
   ) => {
     try {
-      const newShortenedUrl = await shortenerService.createShortenedUrl({
+      const newShortenedUrl = await shortenURLService.createShortenedUrl({
         user: req.user,
         targetUrl: req.body.targetUrl,
       });
@@ -30,4 +30,4 @@ class ShortenerController {
   };
 }
 
-export const shortenerController = new ShortenerController();
+export const shortenUrlController = new ShortenURLController();

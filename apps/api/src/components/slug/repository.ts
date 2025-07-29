@@ -1,4 +1,4 @@
-import { ISlug, Slug } from '@shared/models';
+import { ISlug, Slug } from '@shared/models/schemas';
 
 export interface ISlugRepository {
   findOneAndDelete: () => Promise<ISlug | null>;

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { shortenerRouter } from './shortener/router';
+import { shortenerRouter } from './shorten-url/router';
 
 export const appRouter = Router();
 

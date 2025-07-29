@@ -1,7 +1,7 @@
 import { JwtPayload } from 'jsonwebtoken';
-import { ShortenedURL } from '@shared/models';
+import { ShortenedURL } from '@shared/models/schemas';
 import { slugRepository } from '../slug/repository';
-import { IShortenerRepository, shortenerRepository } from './repository';
+import { IShortenURLRepository, shortenerRepository } from './repository';
 import { AppError } from '@/middlewares/error';
 
 interface ICreateShortenedURLPayload {
@@ -9,10 +9,10 @@ interface ICreateShortenedURLPayload {
   targetUrl: string;
 }
 
-class ShortenerService {
-  private repository: IShortenerRepository;
+class ShortenURLService {
+  private repository: IShortenURLRepository;
 
-  constructor(injectedRepository?: IShortenerRepository) {
+  constructor(injectedRepository?: IShortenURLRepository) {
     this.repository = injectedRepository ?? shortenerRepository;
   }
 
@@ -42,4 +42,4 @@ class ShortenerService {
   };
 }
 
-export const shortenerService = new ShortenerService();
+export const shortenURLService = new ShortenURLService();

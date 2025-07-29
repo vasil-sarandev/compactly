@@ -1,11 +1,11 @@
-import { IShortenedURL, ShortenedURL } from '@shared/models';
+import { IShortenedURL, ShortenedURL } from '@shared/models/schemas';
 
-export interface IShortenerRepository {
+export interface IShortenURLRepository {
   getShortenedURL: (slug: string) => Promise<IShortenedURL | null>;
   createShortenedURL: (data: IShortenedURL) => Promise<IShortenedURL>;
 }
 
-class ShortenerRepository implements IShortenerRepository {
+class ShortenerRepository implements IShortenURLRepository {
   constructor() {}
 
   getShortenedURL = async (slug: string) => ShortenedURL.findOne({ slug: slug }).lean();

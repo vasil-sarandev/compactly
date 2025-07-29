@@ -5,7 +5,7 @@ export enum SlugPoolType {
   reserved = 'RESERVED',
 }
 
-const slugPoolStatSchema = new Schema(
+export const slugPoolStatSchema = new Schema(
   {
     type: {
       type: String,

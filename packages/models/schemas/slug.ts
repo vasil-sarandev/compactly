@@ -2,7 +2,7 @@ import { InferSchemaType, model, Schema } from 'mongoose';
 import { SlugPoolType } from './slug-pool-stat';
 
 // TODO: Make sure to index this collection so findOneAndDelete performs fast.
-const slugSchema = new Schema(
+export const slugSchema = new Schema(
   {
     slug: {
       type: String,

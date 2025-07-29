@@ -1,6 +1,6 @@
 import { InferSchemaType, model, Schema } from 'mongoose';
 
-const shortenedURLSchema = new Schema(
+export const shortenedURLSchema = new Schema(
   {
     slug: {
       type: String,
