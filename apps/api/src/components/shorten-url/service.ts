@@ -1,9 +1,10 @@
 import { JwtPayload } from 'jsonwebtoken';
 import { ShortenedURL, SlugPoolStat, SlugPoolType } from '@shared/models/schemas';
-import { SLUG_POOL_LOW_THRESHHOLD_COUNT } from '@shared/util';
+import { KAFKA_SLUG_POOL_LOW_COUNT_TOPIC, SLUG_POOL_LOW_THRESHHOLD_COUNT } from '@shared/util';
 import { IShortenURLRepository, shortenerRepository } from './repository';
 import { recursivelyFindAnAvailableSlug } from './helpers/find-available-slug';
 import { AppError } from '@/middlewares/error';
+import { kafka } from '@/services/kafka';
 
 interface ICreateShortenedURLPayload {
   user?: JwtPayload;
@@ -34,8 +35,12 @@ class ShortenURLService {
       throw new AppError(500, 'no pool stats available');
     }
     if (defaultPoolStats.availableCount <= SLUG_POOL_LOW_THRESHHOLD_COUNT) {
-      // send a message that the @api/pool-manager picks up and fills up the pool.
-      // TODO: produce kafka message here.
+      // publish a message that the @api/pool-manager(s) pick up and fill up the pool eventually.
+      console.log('sending the kafka message');
+      await kafka.send({
+        topic: KAFKA_SLUG_POOL_LOW_COUNT_TOPIC,
+        messages: [{ value: defaultPoolStats.availableCount.toString() }],
+      });
     }
 
     let assignedSlug;
