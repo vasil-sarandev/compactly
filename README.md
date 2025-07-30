@@ -25,20 +25,6 @@ Shared Configs/Packages between the apps.
 - `packages/typescript-config` - shared eslint config for all TypeScript applications & packages.
 - `packages/prettier-config` - shared eslint config for all projects.
 
-## Application Flow
-
-### Shortened URL Creation
-
-1. User / API request to create a Shortened URL occurrs.
-2. The `@apps/api` checks the available count in the slug pool.
-   - If there's any available, it runs a transaction that picks up a pregenerated slug from the pool and decreases _availableCount_ during the shortenedUrl creation.
-   - If the available count is under than the thresh hold for the minimum desired slugs in pool, `@apps/api` publishes a kafka message to the topic that `@apps/pool-manager` is subscribed to. When the `@apps/pool-manager` picks up this message, it generates a number of slugs that it makes sure don't exist in the current slug pool and in the shortenedUrl collection. It then runs a transaction that adds them to the slug pool and increases the _availableCount_.
-   - If there's 0 slugs available, it runs the disaster scenario - `@apps/api` generates a slug recursively until it finds one that doesn't exist in the collection and assigns it to the shortenedUrl.
-
-### Shortened URL redirects
-
-[TODO]
-
 ## Prerequisites
 
 The default run/build commands for the monorepo use containers.
