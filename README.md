@@ -1,6 +1,6 @@
 # Compactly - OSS URL Shortener
 
-`compactly` is an Open-Source URL Shortener that utilizes microservices, containerization, message brokers, and caching within a monorepo.
+`compactly` is an Open-Source URL Shortener that utilizes microservices, distributed transactions, containerization, message brokers, and caching within a monorepo.
 
 ## Built with
 
