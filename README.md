@@ -11,8 +11,8 @@
 
 ### Applications
 
-- `apps/api`: the NodeJS server that exposes an API that covers the business requirements for a functional URL Shortener
-- `apps/pool-manager`: a NodeJS microservice that takes care of refilling the pool with available slugs for short urls. It consumes Kafka messages which are published by the `apps/api` to know when to do so .
+- `apps/api`: the NodeJS server that exposes an API that serves redirects for shortened URLs or allows users to create new shortened urls for a targetURL by picking up pre-generated slugs from the slug pool.
+- `apps/pool-manager`: a NodeJS microservice that takes care of refilling the pool with available slugs for short urls. It consumes Kafka messages which are published by the `apps/api` to know when to do so.
 - `apps/analytics`: a NodeJS microservice that consumes Kafka Messages published by the `apps/api` and handles the analytics updates to the database.
 
 ### Packages

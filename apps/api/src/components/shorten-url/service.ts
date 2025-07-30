@@ -35,11 +35,10 @@ class ShortenURLService {
       throw new AppError(500, 'no pool stats available');
     }
     if (defaultPoolStats.availableCount <= SLUG_POOL_LOW_THRESHHOLD_COUNT) {
-      // publish a message that the @api/pool-manager(s) pick up and fill up the pool eventually.
-      console.log('sending the kafka message');
-      await kafka.send({
+      console.log('low slug pool count detected. publishing the message to topic');
+      kafka.send({
         topic: KAFKA_SLUG_POOL_LOW_COUNT_TOPIC,
-        messages: [{ value: defaultPoolStats.availableCount.toString() }],
+        messages: [{ value: JSON.stringify({ type: SlugPoolType.default }) }],
       });
     }
 

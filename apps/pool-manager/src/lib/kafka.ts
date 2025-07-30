@@ -4,6 +4,7 @@ import {
   KAFKA_SECURITY_PROTOCOL,
   KAFKA_SLUG_POOL_LOW_COUNT_TOPIC,
 } from '@shared/util';
+import { SlugPoolType } from '@shared/models/schemas';
 import { KAFKA_BOOTSTRAP_SERVER } from '@/env-constants';
 import { handleSlugPoolLowCount } from '@/consumers/low-count-topic';
 
@@ -24,7 +25,8 @@ const connectKafkaConsumer = async () => {
     eachMessage: async ({ topic, message }) => {
       // add more handlers here
       if (topic === KAFKA_SLUG_POOL_LOW_COUNT_TOPIC) {
-        handleSlugPoolLowCount(message);
+        const parsedMessageValue = message.value ? JSON.parse(message.value.toString()) : {};
+        handleSlugPoolLowCount(parsedMessageValue.type || SlugPoolType.default);
       }
     },
   });

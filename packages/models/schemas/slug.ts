@@ -7,8 +7,6 @@ export const slugSchema = new Schema(
       type: String,
       required: true,
       unique: true,
-      // index this because we need "findOneAndDelete" that matches by slug to be fast.
-      index: true,
     },
     type: {
       type: String,
@@ -24,7 +22,7 @@ export const slugSchema = new Schema(
   { timestamps: true },
 );
 
-// expilicitly create the index
+// index this because we need "findOneAndDelete" that matches by slug to be fast.
 slugSchema.index({ slug: 1 }, { unique: true });
 
 export type ISlug = InferSchemaType<typeof slugSchema>;
