@@ -1,6 +1,9 @@
 // the availableCount thresh hold under which the worker (pool-manager) will attempt to fill up the pool
 export const SLUG_POOL_LOW_THRESHHOLD_COUNT = 500;
 
+// the minimum number of slugs to generate when the low threshhold is reached.
+export const GENERATE_SLUGS_COUNT = 1000;
+
 // 6 is pretty sufficient for now - there's 52 available chars so with only 6 character length slugs,
 // we got like 52^6 variations which equals to 19,770,609,664 or ~20 billion unique slugs. Can always change it in the future.
 export const SLUG_LENGTH = 6;
