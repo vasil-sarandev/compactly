@@ -19,11 +19,8 @@
 
 Shared Configs/Packages between the apps.
 
-- `packages/models` - shared models & schemas between the main server and microservices.
-- `packages/util` - shared utility methods and config constants between the main server and microservices.
-- `packages/eslint-config` - shared eslint config for all JavaScript/TypeScript applications & packages.
-- `packages/typescript-config` - shared eslint config for all TypeScript applications & packages.
-- `packages/prettier-config` - shared eslint config for all projects.
+- `packages/shared` - shared models, schemas, constants, and utility files that are reused between applications.
+- `packages/tooling` - shared dev tooling and dev tooling configuration.
 
 ## Prerequisites
 
