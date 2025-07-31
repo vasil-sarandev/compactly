@@ -25,9 +25,6 @@ export const shortenedURLSchema = new Schema(
   { timestamps: true },
 );
 
-// index this because we're checking for conflicts when generating slugs and we want "find" to be fast
-shortenedURLSchema.index({ slug: 1 }, { unique: true });
-
 export type IShortenedURL = InferSchemaType<typeof shortenedURLSchema>;
 
 export const ShortenedURL = model('ShortenedURL', shortenedURLSchema);
