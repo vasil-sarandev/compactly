@@ -44,7 +44,7 @@ services:
     networks:
       - internal-net
   mongo:
-    image: mongo
+    image: mongo:8.0.12
     ports:
       - "27017:27017"     # Expose MongoDB port to host
     volumes:
@@ -54,7 +54,7 @@ services:
       - internal-net
     entrypoint: "/usr/local/bin/mongo-entrypoint.sh"
   kafka:
-    image: confluentinc/cp-kafka:latest
+    image: confluentinc/cp-kafka:8.0.0
     hostname: kafka
     container_name: kafka
     ports:
