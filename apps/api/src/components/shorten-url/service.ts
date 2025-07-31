@@ -38,9 +38,10 @@ class ShortenURLService {
     }
 
     if (defaultPoolStats.availableCount <= SLUG_POOL_LOW_THRESHHOLD_COUNT) {
+      const msgValue = JSON.stringify({ type });
       kafka.send({
         topic: KAFKA_SLUG_POOL_LOW_COUNT_TOPIC,
-        messages: [{ value: JSON.stringify({ type }) }],
+        messages: [{ value: msgValue }],
       });
       console.log('low slug pool count detected. published a message to the topic');
     }

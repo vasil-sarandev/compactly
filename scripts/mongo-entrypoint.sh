@@ -22,4 +22,12 @@ mongosh --eval "
   }
 "
 
+# Wait for Replica Set to be initiated before running seed
+echo "Waiting for replica set to become PRIMARY..."
+until mongosh --quiet --eval "rs.isMaster().ismaster" | grep "true" > /dev/null; do
+  sleep 1
+done
+echo "Running seed script..."
+mongosh /usr/local/bin/mongo-database-seed.js
+
 wait $pid

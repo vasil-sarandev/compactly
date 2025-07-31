@@ -9,8 +9,7 @@
   },
   "author": "Vasil Sarandev",
   "license": "ISC",
-  "dependencies": {
-    "@shared/models": "^1.0.0",
-    "mongoose": "^8.16.4"
+  "peerDependencies": {
+    "@confluentinc/kafka-javascript": "^1.4.0"
   }
 }

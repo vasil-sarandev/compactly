@@ -1,5 +1,6 @@
 import { KafkaJS } from '@confluentinc/kafka-javascript';
 import {
+  createKafkaTopicsIfMissing,
   KAFKA_CONSUMERS_POOL_MANAGER,
   KAFKA_SECURITY_PROTOCOL,
   KAFKA_SLUG_POOL_LOW_COUNT_TOPIC,
@@ -33,5 +34,10 @@ const connectKafkaConsumer = async () => {
 };
 
 export const connectKafka = async () => {
+  // kafka topics must exist before being subscribed to.
+  await createKafkaTopicsIfMissing({
+    config: { bootstrapServer: KAFKA_BOOTSTRAP_SERVER, securityProtocol: KAFKA_SECURITY_PROTOCOL },
+    topics: [KAFKA_SLUG_POOL_LOW_COUNT_TOPIC],
+  });
   await connectKafkaConsumer();
 };
