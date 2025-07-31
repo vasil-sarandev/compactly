@@ -9,11 +9,12 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
+  "type": "module",
   "license": "ISC",
   "description": "",
   "dependencies": {
     "@confluentinc/kafka-javascript": "^1.4.0",
-    "@shared/util": "^1.0.0",
+    "@packages/shared": "^1.0.0",
     "mongoose": "^8.16.4"
   },
   "devDependencies": {

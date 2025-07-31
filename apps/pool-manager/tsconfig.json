@@ -1,5 +1,5 @@
 {
-  "extends": "@config/typescript-config",
+  "extends": "@packages/tooling/tsconfig",
   "compilerOptions": {
     "target": "es2024",
     "module": "commonjs",

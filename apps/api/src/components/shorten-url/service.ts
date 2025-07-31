@@ -1,6 +1,9 @@
 import { JwtPayload } from 'jsonwebtoken';
-import { SlugPoolStat, SlugPoolType } from '@shared/models/schemas';
-import { KAFKA_SLUG_POOL_LOW_COUNT_TOPIC, SLUG_POOL_LOW_THRESHHOLD_COUNT } from '@shared/util';
+import { SlugPoolStat, SlugPoolType } from '@packages/shared/schemas';
+import {
+  KAFKA_SLUG_POOL_LOW_COUNT_TOPIC,
+  SLUG_POOL_LOW_THRESHHOLD_COUNT,
+} from '@packages/shared/lib';
 import { IShortenURLRepository, shortenerRepository } from './repository';
 import { createShortenedUrlTransaction } from './operations/create-shortenedUrl-transaction';
 import { createShortenedUrlDisasterScenario } from './operations/create-shortenedUrl-disaster';

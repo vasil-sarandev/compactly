@@ -1,10 +1,10 @@
 {
-  "extends": "@config/typescript-config",
+  "extends": "@packages/tooling/tsconfig",
   "compilerOptions": {
     "target": "es2024",
     "module": "commonjs",
     "outDir": "dist",
     "paths": { "@/*": ["./src/*"] }
   },
-  "include": ["schemas/**/*", "index.ts", "eslint.config.js", "prettier.config.js"]
+  "include": ["schemas/**/*", "lib/**/*", "index.ts", "eslint.config.js", "prettier.config.js"]
 }

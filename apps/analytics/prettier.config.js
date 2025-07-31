@@ -1,4 +1,4 @@
-import basePrettier from '@config/prettier-config';
+import basePrettier from '@packages/tooling/prettierConfig';
 
 export default {
   ...basePrettier,

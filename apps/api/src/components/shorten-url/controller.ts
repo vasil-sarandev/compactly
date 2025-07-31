@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { SlugPoolType } from '@shared/models/schemas';
+import { SlugPoolType } from '@packages/shared/schemas';
 import { shortenURLService } from './service';
 import { IAuthenticatedRequest } from '@/middlewares/auth';
 

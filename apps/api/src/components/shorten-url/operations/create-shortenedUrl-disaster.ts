@@ -1,5 +1,5 @@
-import { ShortenedURL } from '@shared/models/schemas';
-import { generateSlug } from '@shared/util';
+import { generateSlug } from '@packages/shared/lib';
+import { ShortenedURL } from '@packages/shared/schemas';
 
 interface ICreateShortenedUrlDisasterScenarioPayload {
   targetUrl: string;

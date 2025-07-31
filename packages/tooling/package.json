@@ -1,11 +1,13 @@
 {
-  "name": "@config/eslint-config",
-  "description": "Shared eslint config for individual apps",
-  "version": "0.0.0",
+  "name": "@packages/tooling",
+  "description": "Shared developer tools and tooling configurations between our applications",
+  "version": "1.0.0",
   "type": "module",
   "private": true,
   "exports": {
-    ".": "./eslint.config.js"
+    "./tsconfig": "./tsconfig.json",
+    "./eslintConfig": "./eslint.config.js",
+    "./prettierConfig": "./prettier.config.js"
   },
   "devDependencies": {
     "@eslint/js": "^9.31.0",

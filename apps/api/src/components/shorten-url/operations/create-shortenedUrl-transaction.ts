@@ -1,6 +1,6 @@
-import { ShortenedURL, Slug, SlugPoolStat, SlugPoolType } from '@shared/models/schemas';
 import mongoose from 'mongoose';
 import { JwtPayload } from 'jsonwebtoken';
+import { ShortenedURL, Slug, SlugPoolStat, SlugPoolType } from '@packages/shared/schemas';
 import { AppError } from '@/middlewares/error';
 
 export interface ICreateShortenedUrlTransactionPayload {

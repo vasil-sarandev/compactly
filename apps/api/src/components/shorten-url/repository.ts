@@ -1,4 +1,4 @@
-import { IShortenedURL, ShortenedURL } from '@shared/models/schemas';
+import { IShortenedURL, ShortenedURL } from '@packages/shared/schemas';
 
 export interface IShortenURLRepository {
   getShortenedURL: (slug: string) => Promise<IShortenedURL | null>;

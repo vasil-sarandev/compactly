@@ -1,13 +1,13 @@
 import { KafkaJS } from '@confluentinc/kafka-javascript';
 import {
-  createKafkaTopicsIfMissing,
-  KAFKA_CONSUMERS_POOL_MANAGER,
   KAFKA_SECURITY_PROTOCOL,
+  KAFKA_CONSUMERS_POOL_MANAGER,
   KAFKA_SLUG_POOL_LOW_COUNT_TOPIC,
-} from '@shared/util';
-import { SlugPoolType } from '@shared/models/schemas';
-import { KAFKA_BOOTSTRAP_SERVER } from '@/env-constants';
+  createKafkaTopicsIfMissing,
+} from '@packages/shared/lib';
+import { SlugPoolType } from '@packages/shared/schemas';
 import { handleSlugPoolLowCount } from '@/consumers/low-count-topic';
+import { KAFKA_BOOTSTRAP_SERVER } from '@/env-constants';
 
 const kafkaConsumer = new KafkaJS.Kafka().consumer({
   'bootstrap.servers': KAFKA_BOOTSTRAP_SERVER,

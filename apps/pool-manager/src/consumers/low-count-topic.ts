@@ -1,10 +1,10 @@
-import { ShortenedURL, Slug, SlugPoolStat, SlugPoolType } from '@shared/models/schemas';
-import { GENERATE_SLUGS_COUNT, generateSlugs } from '@shared/util';
+import { GENERATE_SLUGS_COUNT, generateSlugs } from '@packages/shared/lib';
+import { ShortenedURL, Slug, SlugPoolStat } from '@packages/shared/schemas';
 import mongoose from 'mongoose';
 
 const EXPECTED_GENERATE_SLUGS_COUNT_MODIFIER = 1.5;
 
-export const handleSlugPoolLowCount = async (type: SlugPoolType.default) => {
+export const handleSlugPoolLowCount = async (type: string) => {
   console.log('received message for low slug pool count');
   // wrap work in a transaction because we need this to be atomic
   // (so we don't mess up the slug pool stats and avoid conflicts in generated slugs)

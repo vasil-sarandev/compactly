@@ -1,5 +1,5 @@
 import { KafkaJS } from '@confluentinc/kafka-javascript';
-import { KAFKA_SECURITY_PROTOCOL } from '@shared/util';
+import { KAFKA_SECURITY_PROTOCOL } from '@packages/shared/lib';
 import { KAFKA_BOOTSTRAP_SERVER } from '@/env-constants';
 
 export const kafka = new KafkaJS.Kafka().producer({

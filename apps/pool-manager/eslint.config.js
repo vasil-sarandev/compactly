@@ -1,4 +1,4 @@
-import baseConfig from '@config/eslint-config';
+import baseConfig from '@packages/tooling/eslintConfig';
 import { defineConfig } from 'eslint/config';
 
 export default defineConfig([

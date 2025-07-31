@@ -12,9 +12,7 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
-    "@config/eslint-config": "^0.0.0",
-    "@config/prettier-config": "^0.0.0",
-    "@config/typescript-config": "^0.0.0",
+    "@packages/tooling": "1.0.0",
     "eslint": "^9.31.0",
     "prettier": "^3.6.2",
     "tsconfig-paths": "^4.2.0",
