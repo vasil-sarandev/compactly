@@ -7,7 +7,6 @@ services:
       dockerfile: apps/api/Dockerfile
     volumes:
       - ./apps/api:/usr/src/app/apps/api  # Mount app source directory inside container so HMR works
-      - /usr/src/app/node_modules  # Prevent overwriting node_modules inside container
     ports:
       - '3000:3000'
     depends_on:
@@ -25,7 +24,6 @@ services:
       dockerfile: apps/analytics/Dockerfile
     volumes:
       - ./apps/analytics:/usr/src/app/apps/analytics  # Mount app source directory inside container so HMR works
-      - /usr/src/app/node_modules  # Prevent overwriting node_modules inside container
     depends_on:
       kafka:
           condition: service_healthy
@@ -41,7 +39,6 @@ services:
       dockerfile: apps/pool-manager/Dockerfile
     volumes:
       - ./apps/pool-manager:/usr/src/app/apps/pool-manager  # Mount app source directory inside container so HMR works
-      - /usr/src/app/node_modules  # Prevent overwriting node_modules inside container
     depends_on:
       kafka:
           condition: service_healthy
