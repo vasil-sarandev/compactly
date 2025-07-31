@@ -1,14 +1,14 @@
 import { ShortenedURL, Slug, SlugPoolStat, SlugPoolType } from '@shared/models/schemas';
 import mongoose from 'mongoose';
 import { JwtPayload } from 'jsonwebtoken';
-import { recursivelyFindAnAvailableSlug } from './find-available-slug';
 import { AppError } from '@/middlewares/error';
 
-interface ICreateShortenedUrlTransactionPayload {
+export interface ICreateShortenedUrlTransactionPayload {
   type: SlugPoolType;
   targetUrl: string;
   user?: JwtPayload;
 }
+
 export const createShortenedUrlTransaction = async (
   payload: ICreateShortenedUrlTransactionPayload,
 ) => {
@@ -44,17 +44,4 @@ export const createShortenedUrlTransaction = async (
     session.endSession();
     throw err;
   }
-};
-
-export const createShortenedUrlDisasterScenario = async (
-  payload: ICreateShortenedUrlTransactionPayload,
-) => {
-  const { targetUrl, user } = payload;
-  const slug = await recursivelyFindAnAvailableSlug();
-  const shortenedUrl = await new ShortenedURL({
-    slug,
-    target_url: targetUrl,
-    owner_id: user && user.sub,
-  }).save();
-  return shortenedUrl;
 };

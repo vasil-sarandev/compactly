@@ -2,10 +2,8 @@ import { JwtPayload } from 'jsonwebtoken';
 import { SlugPoolStat, SlugPoolType } from '@shared/models/schemas';
 import { KAFKA_SLUG_POOL_LOW_COUNT_TOPIC, SLUG_POOL_LOW_THRESHHOLD_COUNT } from '@shared/util';
 import { IShortenURLRepository, shortenerRepository } from './repository';
-import {
-  createShortenedUrlDisasterScenario,
-  createShortenedUrlTransaction,
-} from './helpers/transactions';
+import { createShortenedUrlTransaction } from './operations/create-shortenedUrl-transaction';
+import { createShortenedUrlDisasterScenario } from './operations/create-shortenedUrl-disaster';
 import { AppError } from '@/middlewares/error';
 import { kafka } from '@/lib/kafka';
 
@@ -55,7 +53,7 @@ class ShortenURLService {
     } else if (defaultPoolStats.availableCount === 0) {
       // disaster scenario - no slugs available for some reason (worker failure most likely).
       // generate a slug and make sure it doesn't exist.
-      const result = await createShortenedUrlDisasterScenario({ type, user, targetUrl });
+      const result = await createShortenedUrlDisasterScenario({ targetUrl });
       return result;
     }
   };
