@@ -4,5 +4,6 @@ import { authMiddleware } from '@/middlewares/auth';
 
 export const shortenUrlRouter = Router();
 
-shortenUrlRouter.post('/', authMiddleware, shortenUrlController.createUserShortenedURL);
-shortenUrlRouter.post('/public', shortenUrlController.createAnonymousShortenedURL);
+// get shortened url by slug is defined at app-router.ts
+shortenUrlRouter.post(`/`, authMiddleware, shortenUrlController.createUserShortenedURL);
+shortenUrlRouter.post(`/public`, shortenUrlController.createAnonymousShortenedURL);
