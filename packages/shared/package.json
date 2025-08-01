@@ -8,7 +8,7 @@
     "./schemas": "./schemas"
   },
   "scripts": {
-    "build": "tsc -b",
+    "build": "npx tsc && npx tsc-alias",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Vasil Sarandev",

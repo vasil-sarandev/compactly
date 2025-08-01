@@ -1,24 +1,24 @@
-import { InferSchemaType, model, Schema, Types } from 'mongoose';
+import { InferSchemaType, model, Schema } from 'mongoose';
 
 export const pageViewSchema = new Schema(
   {
-    shortenedUrl: {
-      type: Types.ObjectId,
+    shortenedUrlId: {
+      type: Schema.Types.ObjectId,
       required: true,
       ref: 'ShortenedURL',
       index: true,
     },
     referrer: {
       type: String,
-      required: true,
+      default: 'no-referer',
     },
     userAgent: {
       type: String,
-      required: true,
+      default: 'no-userAgent',
     },
     ip: {
       type: String,
-      required: true,
+      default: 'no-ip',
     },
   },
   { timestamps: true },

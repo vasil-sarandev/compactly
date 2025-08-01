@@ -7,6 +7,20 @@ import { IAuthenticatedRequest } from '@/middlewares/auth';
 const TEMPORARY_REDIRECT_HTTP_STATUS = 302;
 
 class ShortenedURLController {
+  getShortenedUrlBySlug = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const slug = req.params.slug as string;
+      const shortenedUrl = await shortenedURLService.getShortenedUrl({
+        slug,
+        ip: req.ip || '',
+        userAgent: req.get('User-Agent') || '',
+        referrer: req.get('Referer') || '',
+      });
+      res.status(TEMPORARY_REDIRECT_HTTP_STATUS).set('Location', shortenedUrl.target_url).send();
+    } catch (err) {
+      next(err);
+    }
+  };
   createAnonymousShortenedURL = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const newShortenedUrl = await shortenedURLService.createShortenedUrl({
@@ -30,15 +44,6 @@ class ShortenedURLController {
         type: SlugPoolType.default,
       });
       res.status(200).json(newShortenedUrl);
-    } catch (err) {
-      next(err);
-    }
-  };
-  getShortenedUrlBySlug = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const slug = req.params.slug as string;
-      const shortenedUrl = await shortenedURLService.getShortenedUrl(slug);
-      res.status(TEMPORARY_REDIRECT_HTTP_STATUS).set('Location', shortenedUrl.target_url).send();
     } catch (err) {
       next(err);
     }

@@ -31,8 +31,6 @@ services:
           condition: service_healthy
       mongo:
           condition: service_started
-      redis:
-          condition: service_started
     networks:
       - internal-net
   pool-manager:
@@ -47,8 +45,6 @@ services:
       kafka:
           condition: service_healthy
       mongo:
-          condition: service_started
-      redis:
           condition: service_started
     networks:
       - internal-net

@@ -1,7 +1,7 @@
-import { ClientSession, FilterQuery, QueryOptions, Types, UpdateQuery } from 'mongoose';
+import { ClientSession, FilterQuery, QueryOptions, Schema, UpdateQuery } from 'mongoose';
 
 export type IWithoutTimestamps<T> = Omit<T, 'createdAt' | 'updatedAt'>;
-export type IWithId<T> = T & { _id: Types.ObjectId };
+export type IWithId<T> = T & { _id: Schema.Types.ObjectId };
 
 export interface IMongooseGetQueryPayload<T> {
   filter: FilterQuery<T>;
