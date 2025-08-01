@@ -1,6 +1,6 @@
-import { IGetQueryPayload, IUpdateQueryPayload } from '@/lib/shared';
 import { ISlugPoolStat, SlugPoolStat } from '@packages/shared/schemas';
 import { UpdateResult } from 'mongoose';
+import { IGetQueryPayload, IUpdateQueryPayload } from '@/lib/shared';
 
 export interface ISlugPoolStatRepository {
   findOne: (payload: IGetQueryPayload<ISlugPoolStat>) => Promise<ISlugPoolStat | null>;

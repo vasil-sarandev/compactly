@@ -1,5 +1,5 @@
-import { AppError } from '@/middlewares/error';
 import { shortenedUrlRepository } from '../repository';
+import { AppError } from '@/middlewares/error';
 
 interface IGetShortenedUrlBySlugOperationPayload {
   slug: string;

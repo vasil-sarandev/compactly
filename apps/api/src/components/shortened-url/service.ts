@@ -4,12 +4,12 @@ import {
   KAFKA_SLUG_POOL_LOW_COUNT_TOPIC,
   SLUG_POOL_LOW_THRESHHOLD_COUNT,
 } from '@packages/shared/lib';
+import { slugPoolStatRepository } from '../slug-pool-stat/repository';
 import { createShortenedUrlTransaction } from './helpers/create-shortenedUrl-transaction';
 import { createShortenedUrlDisasterScenario } from './helpers/create-shortenedUrl-disaster';
+import { getShortenedUrlBySlugOperation } from './helpers/get-shortenedUrl-by-slug';
 import { AppError } from '@/middlewares/error';
 import { kafka } from '@/lib/kafka';
-import { slugPoolStatRepository } from '../slug-pool-stat/repository';
-import { getShortenedUrlBySlugOperation } from './helpers/get-shortenedUrl-by-slug';
 
 interface ICreateShortenedURLPayload {
   user?: JwtPayload;
@@ -33,8 +33,7 @@ class ShortenedURLService {
     }
 
     if (slugPoolStats.availableCount > 0) {
-      // default scenario - run the transaction which picks up and deletes a slug from the pool and
-      // decreases available count when creating a shortenedUrl
+      // default scenario - run the transaction
       const resp = createShortenedUrlTransaction({ type, user, targetUrl });
       if (slugPoolStats.availableCount <= SLUG_POOL_LOW_THRESHHOLD_COUNT) {
         // notify pool manager microservice if low count of slugs are available.

@@ -4,6 +4,6 @@ import {
   IMongooseUpdateQueryPayload,
 } from '@packages/shared/lib';
 
-export interface IGetQueryPayload<T> extends IMongooseGetQueryPayload<T> {}
-export interface IUpdateQueryPayload<T> extends IMongooseUpdateQueryPayload<T> {}
-export interface ICreateQueryPayload<T> extends IMongooseCreateQueryPayload<T> {}
+export type IGetQueryPayload<T> = IMongooseGetQueryPayload<T>;
+export type IUpdateQueryPayload<T> = IMongooseUpdateQueryPayload<T>;
+export type ICreateQueryPayload<T> = IMongooseCreateQueryPayload<T>;

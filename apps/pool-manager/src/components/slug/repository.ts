@@ -1,5 +1,5 @@
-import { ICreateManyQueryPayload } from '@/lib/shared';
 import { ISlug, Slug } from '@packages/shared/schemas';
+import { ICreateManyQueryPayload } from '@/lib/shared';
 
 export interface ISlugRepository {
   insertMany: (payload: ICreateManyQueryPayload<ISlug>) => Promise<ISlug[]>;

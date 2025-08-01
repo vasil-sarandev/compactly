@@ -1,8 +1,8 @@
 import mongoose, { Types } from 'mongoose';
 import { JwtPayload } from 'jsonwebtoken';
 import { SlugPoolType } from '@packages/shared/schemas';
-import { AppError } from '@/middlewares/error';
 import { shortenedUrlRepository } from '../repository';
+import { AppError } from '@/middlewares/error';
 import { slugRepository } from '@/components/slug/repository';
 import { slugPoolStatRepository } from '@/components/slug-pool-stat/repository';
 
@@ -48,7 +48,6 @@ export const createShortenedUrlTransaction = async ({
 
     await session.commitTransaction();
     session.endSession();
-
     return shortenedUrl;
   } catch (err) {
     await session.abortTransaction();

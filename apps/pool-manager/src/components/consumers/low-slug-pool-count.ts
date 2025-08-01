@@ -1,8 +1,8 @@
+import { GENERATE_SLUGS_COUNT, generateSlugs } from '@packages/shared/lib';
+import mongoose from 'mongoose';
 import { shortenedUrlRepository } from '@/components/shortened-url/repository';
 import { slugPoolStatRepository } from '@/components/slug-pool-stat/repository';
 import { slugRepository } from '@/components/slug/repository';
-import { GENERATE_SLUGS_COUNT, generateSlugs } from '@packages/shared/lib';
-import mongoose from 'mongoose';
 
 // flow for the transaction :
 // 1. generate slugs

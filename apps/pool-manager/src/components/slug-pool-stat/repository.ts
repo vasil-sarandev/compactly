@@ -1,6 +1,6 @@
-import { IUpdateQueryPayload } from '@/lib/shared';
 import { ISlugPoolStat, SlugPoolStat } from '@packages/shared/schemas';
 import { UpdateResult } from 'mongoose';
+import { IUpdateQueryPayload } from '@/lib/shared';
 
 export interface ISlugPoolStatRepository {
   updateOne: (payload: IUpdateQueryPayload<ISlugPoolStat>) => Promise<UpdateResult | null>;

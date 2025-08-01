@@ -1,5 +1,5 @@
-import { IGetQueryPayload } from '@/lib/shared';
 import { IShortenedURL, ShortenedURL } from '@packages/shared/schemas';
+import { IGetQueryPayload } from '@/lib/shared';
 
 export interface IShortenedURLRepository {
   find: (payload: IGetQueryPayload<IShortenedURL>) => Promise<IShortenedURL[] | null>;

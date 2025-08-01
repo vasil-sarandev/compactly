@@ -2,7 +2,6 @@ import { NextFunction, Request, Response } from 'express';
 import { SlugPoolType } from '@packages/shared/schemas';
 import { shortenedURLService } from './service';
 import { IAuthenticatedRequest } from '@/middlewares/auth';
-import { AppError } from '@/middlewares/error';
 
 // dont use 301, it's permanent redirect - browser will no longer hit the service after it receives it once.
 const TEMPORARY_REDIRECT_HTTP_STATUS = 302;

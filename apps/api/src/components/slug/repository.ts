@@ -1,5 +1,5 @@
-import { IGetQueryPayload } from '@/lib/shared';
 import { ISlug, Slug } from '@packages/shared/schemas';
+import { IGetQueryPayload } from '@/lib/shared';
 
 export interface ISlugRepository {
   findOneAndDelete: (payload: IGetQueryPayload<ISlug>) => Promise<ISlug | null>;

@@ -14,5 +14,6 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "ES2022"
-  }
+  },
+  "include": ["src/**/*", "eslint.config.js", "prettier.config.js"]
 }

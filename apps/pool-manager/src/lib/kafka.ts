@@ -6,7 +6,7 @@ import {
   createKafkaTopicsIfMissing,
 } from '@packages/shared/lib';
 import { SlugPoolType } from '@packages/shared/schemas';
-import { handleSlugPoolLowCountTransaction } from '@/consumers/low-count-topic';
+import { handleSlugPoolLowCountTransaction } from '@/components/consumers/low-slug-pool-count';
 import { KAFKA_BOOTSTRAP_SERVER } from '@/env-constants';
 
 const kafkaConsumer = new KafkaJS.Kafka().consumer({
