@@ -14,6 +14,8 @@ services:
           condition: service_healthy
       mongo:
           condition: service_started
+      redis:
+          condition: service_started
     networks:
       - internal-net
   analytics:
@@ -28,6 +30,8 @@ services:
       kafka:
           condition: service_healthy
       mongo:
+          condition: service_started
+      redis:
           condition: service_started
     networks:
       - internal-net
@@ -44,12 +48,12 @@ services:
           condition: service_healthy
       mongo:
           condition: service_started
+      redis:
+          condition: service_started
     networks:
       - internal-net
   mongo:
     image: mongo:8.0.12
-    hostname: mongo
-    container_name: mongo
     volumes:
       - ./scripts/mongo-entrypoint.sh:/usr/local/bin/mongo-entrypoint.sh # mount the mongo entrypoint script
       - ./scripts/mongo-database-seed.js:/usr/local/bin/mongo-database-seed.js # mount the mongo database seed script
@@ -57,10 +61,14 @@ services:
     networks:
       - internal-net
     entrypoint: "/usr/local/bin/mongo-entrypoint.sh"
+  redis:
+    image: redis:8.0.3
+    volumes:
+      - redis-data:/data   # Persist redis data to named volume
+    networks:
+      - internal-net
   kafka:
     image: confluentinc/cp-kafka:8.0.0
-    hostname: kafka
-    container_name: kafka
     environment:
       KAFKA_NODE_ID: 1
       KAFKA_PROCESS_ROLES: "broker,controller"
@@ -82,6 +90,7 @@ services:
 
 volumes:
   mongo-data:
+  redis-data:
 
 networks:
   internal-net:
