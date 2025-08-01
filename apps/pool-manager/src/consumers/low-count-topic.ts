@@ -1,5 +1,7 @@
+import { shortenedUrlRepository } from '@/components/shortened-url/repository';
+import { slugPoolStatRepository } from '@/components/slug-pool-stat/repository';
+import { slugRepository } from '@/components/slug/repository';
 import { GENERATE_SLUGS_COUNT, generateSlugs } from '@packages/shared/lib';
-import { ShortenedURL, Slug, SlugPoolStat } from '@packages/shared/schemas';
 import mongoose from 'mongoose';
 
 const EXPECTED_GENERATE_SLUGS_COUNT_MODIFIER = 1.5;
@@ -16,11 +18,11 @@ export const handleSlugPoolLowCount = async (type: string) => {
     const slugsCount = GENERATE_SLUGS_COUNT * EXPECTED_GENERATE_SLUGS_COUNT_MODIFIER;
     const generatedSlugs = generateSlugs(slugsCount);
 
-    const matches = await ShortenedURL.find(
-      { slug: { $in: generatedSlugs } },
-      { slug: 1, _id: 0 },
-      { session },
-    ).lean();
+    const matches = await shortenedUrlRepository.find({
+      filter: { slug: { $in: generatedSlugs } },
+      options: { slug: 1, _id: 0 },
+      session,
+    });
     // transform the matches into a Set because of O(1) lookup
     const existingSlugs = new Set(matches.map(match => match.slug));
     // filter out the candidate slugs for insertion.
@@ -28,17 +30,17 @@ export const handleSlugPoolLowCount = async (type: string) => {
 
     // insert slugs using {ordered:false} so we don't abort other records on errors.
     // some insertions may fail because of the "unique" constraint on 'slug' property and that's expected.
-    const insertedSlugs = await Slug.insertMany(
-      candidateSlugs.map(slug => ({ type, slug })),
-      { ordered: false, session },
-    );
-    // update the slug pool stats count
-    await SlugPoolStat.updateOne(
-      { type },
-      { $inc: { availableCount: insertedSlugs.length } },
-      { session },
-    );
 
+    const insertedSlugs = await slugRepository.insertMany({
+      data: candidateSlugs.map(slug => ({ type, slug })),
+      options: { ordered: false, session },
+    });
+    // update the slug pool stats count
+    await slugPoolStatRepository.updateOne({
+      filter: { type },
+      update: { $inc: { availableCount: insertedSlugs.length } },
+      session,
+    });
     // commit the transaction and close the session
     await session.commitTransaction();
     session.endSession();

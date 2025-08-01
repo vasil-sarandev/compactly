@@ -1,14 +1,15 @@
 import { JwtPayload } from 'jsonwebtoken';
-import { SlugPoolStat, SlugPoolType } from '@packages/shared/schemas';
+import { SlugPoolType } from '@packages/shared/schemas';
 import {
   KAFKA_SLUG_POOL_LOW_COUNT_TOPIC,
   SLUG_POOL_LOW_THRESHHOLD_COUNT,
 } from '@packages/shared/lib';
-import { IShortenURLRepository, shortenerRepository } from './repository';
 import { createShortenedUrlTransaction } from './operations/create-shortenedUrl-transaction';
 import { createShortenedUrlDisasterScenario } from './operations/create-shortenedUrl-disaster';
 import { AppError } from '@/middlewares/error';
 import { kafka } from '@/lib/kafka';
+import { slugPoolStatRepository } from '../slug-pool-stat/repository';
+import { getShortenedUrlBySlugOperation } from './operations/get-shortenedUrl-by-slug';
 
 interface ICreateShortenedURLPayload {
   user?: JwtPayload;
@@ -16,31 +17,22 @@ interface ICreateShortenedURLPayload {
   type: SlugPoolType;
 }
 
-class ShortenURLService {
-  private repository: IShortenURLRepository;
-
-  constructor(injectedRepository?: IShortenURLRepository) {
-    this.repository = injectedRepository ?? shortenerRepository;
-  }
+class ShortenedURLService {
+  constructor() {}
 
   getShortenedUrl = async (slug: string) => {
-    const result = await this.repository.getShortenedURL(slug);
-    // TODO: add analytics here ig.
-    if (!result) {
-      throw new AppError(401, 'slug not found');
-    }
-    return result;
+    return getShortenedUrlBySlugOperation({ slug });
   };
 
   createShortenedUrl = async (payload: ICreateShortenedURLPayload) => {
-    const { targetUrl, user, type = SlugPoolType.default } = payload;
+    const { targetUrl, user, type } = payload;
 
-    const defaultPoolStats = await SlugPoolStat.findOne({ type }).lean();
-    if (!defaultPoolStats) {
+    const slugPoolStats = await slugPoolStatRepository.findOne({ filter: { type } });
+    if (!slugPoolStats) {
       throw new AppError(500, 'no pool stats available');
     }
 
-    if (defaultPoolStats.availableCount <= SLUG_POOL_LOW_THRESHHOLD_COUNT) {
+    if (slugPoolStats.availableCount <= SLUG_POOL_LOW_THRESHHOLD_COUNT) {
       const msgValue = JSON.stringify({ type });
       kafka.send({
         topic: KAFKA_SLUG_POOL_LOW_COUNT_TOPIC,
@@ -49,12 +41,12 @@ class ShortenURLService {
       console.log('low slug pool count detected. published a message to the topic');
     }
 
-    if (defaultPoolStats.availableCount > 0) {
+    if (slugPoolStats.availableCount > 0) {
       // default scenario - run the transaction which picks up and deletes a slug from the pool and
       // decreases available count when creating a shortenedUrl
       const result = await createShortenedUrlTransaction({ type, user, targetUrl });
       return result;
-    } else if (defaultPoolStats.availableCount === 0) {
+    } else if (slugPoolStats.availableCount === 0) {
       // disaster scenario - no slugs available for some reason (worker failure most likely).
       // generate a slug and make sure it doesn't exist.
       const result = await createShortenedUrlDisasterScenario({ targetUrl });
@@ -63,4 +55,4 @@ class ShortenURLService {
   };
 }
 
-export const shortenURLService = new ShortenURLService();
+export const shortenedURLService = new ShortenedURLService();

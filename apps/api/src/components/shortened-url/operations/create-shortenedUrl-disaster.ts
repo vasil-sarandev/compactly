@@ -1,5 +1,6 @@
 import { generateSlug } from '@packages/shared/lib';
 import { ShortenedURL } from '@packages/shared/schemas';
+import { shortenedUrlRepository } from '../repository';
 
 interface ICreateShortenedUrlDisasterScenarioPayload {
   targetUrl: string;
@@ -23,9 +24,5 @@ export const createShortenedUrlDisasterScenario = async (
 ) => {
   const { targetUrl } = payload;
   const slug = await recursivelyFindAnAvailableSlug();
-  const shortenedUrl = await new ShortenedURL({
-    slug,
-    target_url: targetUrl,
-  }).save();
-  return shortenedUrl;
+  return await shortenedUrlRepository.save({ data: { slug, target_url: targetUrl } });
 };
