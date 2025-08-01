@@ -1,7 +1,7 @@
 import mongoose, { Types } from 'mongoose';
 import { JwtPayload } from 'jsonwebtoken';
 import { SlugPoolType } from '@packages/shared/schemas';
-import { shortenedUrlRepository } from '../repository';
+import { shortenedUrlRepository } from '../../repository';
 import { AppError } from '@/middlewares/error';
 import { slugRepository } from '@/components/slug/repository';
 import { slugPoolStatRepository } from '@/components/slug-pool-stat/repository';

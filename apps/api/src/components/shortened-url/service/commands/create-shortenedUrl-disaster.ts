@@ -1,6 +1,6 @@
 import { generateSlug } from '@packages/shared/lib';
 import { ShortenedURL } from '@packages/shared/schemas';
-import { shortenedUrlRepository } from '../repository';
+import { shortenedUrlRepository } from '../../repository';
 
 interface ICreateShortenedUrlDisasterScenarioPayload {
   targetUrl: string;

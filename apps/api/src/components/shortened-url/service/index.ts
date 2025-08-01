@@ -1,17 +1,17 @@
 import { JwtPayload } from 'jsonwebtoken';
-import { IPageView, SlugPoolType } from '@packages/shared/schemas';
+import { SlugPoolType } from '@packages/shared/schemas';
 import {
-  IPageViewTopicMessage,
   ISlugPoolLowCountTopicMessage,
-  IWithoutTimestamps,
-  KAFKA_PAGEVIEW_TOPIC,
   KAFKA_SLUG_POOL_LOW_COUNT_TOPIC,
   SLUG_POOL_LOW_THRESHHOLD_COUNT,
 } from '@packages/shared/lib';
-import { slugPoolStatRepository } from '../slug-pool-stat/repository';
-import { createShortenedUrlTransaction } from './helpers/create-shortenedUrl-transaction';
-import { createShortenedUrlDisasterScenario } from './helpers/create-shortenedUrl-disaster';
-import { shortenedUrlRepository } from './repository';
+import { slugPoolStatRepository } from '../../slug-pool-stat/repository';
+import { createShortenedUrlTransaction } from './commands/create-shortenedUrl-transaction';
+import { createShortenedUrlDisasterScenario } from './commands/create-shortenedUrl-disaster';
+import {
+  getShortenedUrlCacheAside,
+  IGetShortenedUrlPayload,
+} from './commands/get-shortenedUrl-cache-aside';
 import { AppError } from '@/middlewares/error';
 import { kafka } from '@/lib/kafka';
 
@@ -21,25 +21,11 @@ interface ICreateShortenedURLPayload {
   type: SlugPoolType;
 }
 
-type IGetShortenedUrlPayload = Omit<IWithoutTimestamps<IPageView>, 'shortenedUrlId'> & {
-  slug: string;
-};
-
 class ShortenedURLService {
   constructor() {}
 
-  getShortenedUrl = async ({ slug, ...rest }: IGetShortenedUrlPayload) => {
-    const shortenedUrl = await shortenedUrlRepository.findOne({ filter: { slug } });
-    if (!shortenedUrl) {
-      throw new AppError(404, 'slug not found');
-    }
-    // notify analytics microservice for pageView event
-    const message: IPageViewTopicMessage = { ...rest, shortenedUrlId: shortenedUrl._id };
-    kafka.send({
-      topic: KAFKA_PAGEVIEW_TOPIC,
-      messages: [{ value: JSON.stringify(message) }],
-    });
-    return shortenedUrl;
+  getShortenedUrl = async (payload: IGetShortenedUrlPayload) => {
+    return getShortenedUrlCacheAside(payload);
   };
 
   createShortenedUrl = async (payload: ICreateShortenedURLPayload) => {
