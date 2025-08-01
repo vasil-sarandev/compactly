@@ -13,24 +13,6 @@ RUN turbo prune @apps/api --docker
 # install the dependencies
 RUN npm install
 
-# --------- BUILDER stage
-FROM base AS builder
-# copy pruned app source and node_modules from the prepare stage
-COPY --from=prepare /usr/src/app/out/full ./
-COPY --from=prepare /usr/src/app/node_modules ./node_modules
-# build the app
-RUN npm run turbo:build
-
-# --------- PROD stage
-FROM base AS prod
-COPY --from=builder /usr/src/app .
-# set working directory to app
-WORKDIR /usr/src/app/apps/api
-# copy the env file
-COPY /apps/api/.env .
-# run the compiled app
-CMD [ "node", "--env-file=.env", "dist/app.js" ]
-
 # --------- DEVELOPMENT stage
 FROM base AS dev
 # copy pruned app source and node_modules from the prepare stage
@@ -42,3 +24,15 @@ WORKDIR /usr/src/app/apps/api
 COPY /apps/api/.env.local .
 # run in development mode with hot reload
 CMD ["npx", "tsx", "watch", "--env-file=.env.local", "./src/app.ts"]
+
+# --------- PROD stage
+FROM base AS prod
+# copy pruned app source and node_modules from the prepare stage
+COPY --from=prepare /usr/src/app/out/full ./
+COPY --from=prepare /usr/src/app/node_modules ./node_modules
+# set working directory to app
+WORKDIR /usr/src/app/apps/api
+# copy the env file
+COPY /apps/api/.env .
+# run the compiled app
+CMD [ "npx", "tsx", "--env-file=.env", "src/app.ts" ]
