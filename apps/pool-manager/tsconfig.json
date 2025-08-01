@@ -1,8 +1,6 @@
 {
   "extends": "@packages/tooling/tsconfig",
   "compilerOptions": {
-    "target": "es2024",
-    "module": "commonjs",
     "outDir": "dist",
     "rootDir": "src",
     "paths": { "@/*": ["./src/*"] }
