@@ -3,5 +3,5 @@
   "compilerOptions": {
     "outDir": "dist"
   },
-  "include": ["schemas/**/*", "lib/**/*", "index.ts", "eslint.config.js", "prettier.config.js"]
+  "include": ["lib/**/*", "schemas/**/*", "eslint.config.js", "prettier.config.js"]
 }

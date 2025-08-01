@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.KAFKA_ERRORS_TOPIC = exports.KAFKA_LOGS_TOPIC = exports.KAFKA_PAGEVIEW_TOPIC = exports.KAFKA_SLUG_POOL_LOW_COUNT_TOPIC = exports.KAFKA_CONSUMERS_POOL_MANAGER = exports.KAFKA_CONSUMERS_GROUP_DEFAULT = exports.KAFKA_SECURITY_PROTOCOL = void 0;
+exports.KAFKA_SECURITY_PROTOCOL = 'plaintext';
+exports.KAFKA_CONSUMERS_GROUP_DEFAULT = 'consumer-group-default';
+exports.KAFKA_CONSUMERS_POOL_MANAGER = 'pool-manager-group';
+exports.KAFKA_SLUG_POOL_LOW_COUNT_TOPIC = 'slug-pool-low-count';
+exports.KAFKA_PAGEVIEW_TOPIC = 'pageview';
+exports.KAFKA_LOGS_TOPIC = 'logs';
+exports.KAFKA_ERRORS_TOPIC = 'errors';

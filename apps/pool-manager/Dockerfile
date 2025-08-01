@@ -30,9 +30,11 @@ FROM base AS prod
 # copy pruned app source and node_modules from the prepare stage
 COPY --from=prepare /usr/src/app/out/full ./
 COPY --from=prepare /usr/src/app/node_modules ./node_modules
+# compile the app
+RUN npm run turbo:build
 # set working directory to app
 WORKDIR /usr/src/app/apps/pool-manager
 # copy the env file
 COPY /apps/pool-manager/.env .
 # run the compiled app
-CMD [ "npx", "tsx", "--env-file=.env", "src/app.ts" ]
+CMD [ "node", "--env-file=.env", "dist/apps/pool-manager/src/app.js" ]

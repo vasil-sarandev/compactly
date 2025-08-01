@@ -7,7 +7,6 @@ import { setupApplication } from './setup-app';
 
 const startServer = async () => {
   await setupApplication();
-
   const app = express();
 
   // parse jsons

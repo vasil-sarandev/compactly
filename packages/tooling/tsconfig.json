@@ -3,19 +3,11 @@
   "compilerOptions": {
     "declaration": true,
     "declarationMap": true,
-    "esModuleInterop": true,
-    "incremental": false,
-    "isolatedModules": true,
-    "lib": ["es2022", "DOM", "DOM.Iterable"],
-    "moduleDetection": "force",
-    "noUncheckedIndexedAccess": true,
-    "resolveJsonModule": true,
+    "target": "es2024",
+    "module": "commonjs",
     "skipLibCheck": true,
+    "esModuleInterop": true,
     "strict": true,
-    "target": "ES2022",
-    "module": "nodenext",
-    "outDir": "dist",
-    "rootDir": "src",
   },
   "include": ["src/**/*", "eslint.config.js", "prettier.config.js"]
 }
