@@ -12,28 +12,31 @@ export interface ICreateShortenedUrlTransactionPayload {
   user?: JwtPayload;
 }
 
-export const createShortenedUrlTransaction = async (
-  payload: ICreateShortenedUrlTransactionPayload,
-) => {
-  const { type, targetUrl, user } = payload;
-  // wrap work in a transaction because we need this to be atomic
-  // (so we don't pick up the same slug for different API calls or mess up the available count updates).
+// flow for the transaction:
+// 1. pull a slug from the slug pool collection
+// 2. update the pool stats collection
+// 3. save the shortenedUrl
+// 4. commit work or abort transaction
+export const createShortenedUrlTransaction = async ({
+  type,
+  targetUrl,
+  user,
+}: ICreateShortenedUrlTransactionPayload) => {
   const session = await mongoose.startSession();
   session.startTransaction();
+
   try {
-    // pick up a slug from pool
     const candidateSlug = await slugRepository.findOneAndDelete({ filter: { type }, session });
     if (!candidateSlug) {
       throw new AppError(500, 'failed to pick up a slug from slug pool');
     }
-    // update the available count
+
     await slugPoolStatRepository.updateOne({
       filter: { type },
       update: { $inc: { availableCount: -1 } },
       session,
     });
 
-    // create the shortened url
     const shortenedUrl = await shortenedUrlRepository.save({
       data: {
         slug: candidateSlug.slug,
@@ -43,13 +46,11 @@ export const createShortenedUrlTransaction = async (
       session,
     });
 
-    // commit the transaction and close the session
     await session.commitTransaction();
     session.endSession();
 
     return shortenedUrl;
   } catch (err) {
-    // abort work
     await session.abortTransaction();
     session.endSession();
     throw err;

@@ -4,12 +4,12 @@ import {
   KAFKA_SLUG_POOL_LOW_COUNT_TOPIC,
   SLUG_POOL_LOW_THRESHHOLD_COUNT,
 } from '@packages/shared/lib';
-import { createShortenedUrlTransaction } from './operations/create-shortenedUrl-transaction';
-import { createShortenedUrlDisasterScenario } from './operations/create-shortenedUrl-disaster';
+import { createShortenedUrlTransaction } from './helpers/create-shortenedUrl-transaction';
+import { createShortenedUrlDisasterScenario } from './helpers/create-shortenedUrl-disaster';
 import { AppError } from '@/middlewares/error';
 import { kafka } from '@/lib/kafka';
 import { slugPoolStatRepository } from '../slug-pool-stat/repository';
-import { getShortenedUrlBySlugOperation } from './operations/get-shortenedUrl-by-slug';
+import { getShortenedUrlBySlugOperation } from './helpers/get-shortenedUrl-by-slug';
 
 interface ICreateShortenedURLPayload {
   user?: JwtPayload;
@@ -32,25 +32,22 @@ class ShortenedURLService {
       throw new AppError(500, 'no pool stats available');
     }
 
-    if (slugPoolStats.availableCount <= SLUG_POOL_LOW_THRESHHOLD_COUNT) {
-      const msgValue = JSON.stringify({ type });
-      kafka.send({
-        topic: KAFKA_SLUG_POOL_LOW_COUNT_TOPIC,
-        messages: [{ value: msgValue }],
-      });
-      console.log('low slug pool count detected. published a message to the topic');
-    }
-
     if (slugPoolStats.availableCount > 0) {
       // default scenario - run the transaction which picks up and deletes a slug from the pool and
       // decreases available count when creating a shortenedUrl
-      const result = await createShortenedUrlTransaction({ type, user, targetUrl });
-      return result;
-    } else if (slugPoolStats.availableCount === 0) {
-      // disaster scenario - no slugs available for some reason (worker failure most likely).
-      // generate a slug and make sure it doesn't exist.
-      const result = await createShortenedUrlDisasterScenario({ targetUrl });
-      return result;
+      const resp = createShortenedUrlTransaction({ type, user, targetUrl });
+      if (slugPoolStats.availableCount <= SLUG_POOL_LOW_THRESHHOLD_COUNT) {
+        // notify pool manager microservice if low count of slugs are available.
+        kafka.send({
+          topic: KAFKA_SLUG_POOL_LOW_COUNT_TOPIC,
+          messages: [{ value: JSON.stringify({ type }) }],
+        });
+      }
+      return resp;
+    } else {
+      // no slugs available for some reason (worker failure most likely).
+      // run the disaster scenario - generate a slug and make sure it doesn't exist.
+      return createShortenedUrlDisasterScenario({ targetUrl });
     }
   };
 }

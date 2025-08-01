@@ -4,44 +4,39 @@ import { slugRepository } from '@/components/slug/repository';
 import { GENERATE_SLUGS_COUNT, generateSlugs } from '@packages/shared/lib';
 import mongoose from 'mongoose';
 
-const EXPECTED_GENERATE_SLUGS_COUNT_MODIFIER = 1.5;
-
-export const handleSlugPoolLowCount = async (type: string) => {
+// flow for the transaction :
+// 1. generate slugs
+// 2. check for matches in shortenedUrl collection;
+// 3. try to insert all of them in the slug collection -
+// unique constraint there won't allow duplicates (use {ordered:false} on insert so errors with constraint don't abort inserting other records)
+// 4. update the slug pool stat collection document count
+// 5. commit work or abort transaction
+export const handleSlugPoolLowCountTransaction = async (type: string) => {
   console.log('received message for low slug pool count');
-  // wrap work in a transaction because we need this to be atomic
-  // (so we don't mess up the slug pool stats and avoid conflicts in generated slugs)
   const session = await mongoose.startSession();
   session.startTransaction();
   try {
-    // use a multiplier for the expected count in case slugs that are already present
-    // in the database are generated.
-    const slugsCount = GENERATE_SLUGS_COUNT * EXPECTED_GENERATE_SLUGS_COUNT_MODIFIER;
-    const generatedSlugs = generateSlugs(slugsCount);
-
+    const generatedSlugs = generateSlugs(GENERATE_SLUGS_COUNT);
     const matches = await shortenedUrlRepository.find({
       filter: { slug: { $in: generatedSlugs } },
       options: { slug: 1, _id: 0 },
       session,
     });
-    // transform the matches into a Set because of O(1) lookup
-    const existingSlugs = new Set(matches.map(match => match.slug));
-    // filter out the candidate slugs for insertion.
-    const candidateSlugs = generatedSlugs.filter(slug => !existingSlugs.has(slug));
-
-    // insert slugs using {ordered:false} so we don't abort other records on errors.
-    // some insertions may fail because of the "unique" constraint on 'slug' property and that's expected.
+    const existingSlugs = new Set(matches.map(match => match.slug)); // O(1) lookup
+    const candidateSlugs = generatedSlugs
+      .filter(slug => !existingSlugs.has(slug))
+      .map(slug => ({ type, slug }));
 
     const insertedSlugs = await slugRepository.insertMany({
-      data: candidateSlugs.map(slug => ({ type, slug })),
+      data: candidateSlugs,
       options: { ordered: false, session },
     });
-    // update the slug pool stats count
     await slugPoolStatRepository.updateOne({
       filter: { type },
       update: { $inc: { availableCount: insertedSlugs.length } },
       session,
     });
-    // commit the transaction and close the session
+
     await session.commitTransaction();
     session.endSession();
     console.log('successfully handled slug pool low count');

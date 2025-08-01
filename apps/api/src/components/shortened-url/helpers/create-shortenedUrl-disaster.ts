@@ -1,5 +1,5 @@
 import { generateSlug } from '@packages/shared/lib';
-import { ShortenedURL } from '@packages/shared/schemas';
+import { ShortenedURL, SlugPoolType } from '@packages/shared/schemas';
 import { shortenedUrlRepository } from '../repository';
 
 interface ICreateShortenedUrlDisasterScenarioPayload {
@@ -19,10 +19,9 @@ const recursivelyFindAnAvailableSlug = async (): Promise<string> => {
   return generatedSlug;
 };
 
-export const createShortenedUrlDisasterScenario = async (
-  payload: ICreateShortenedUrlDisasterScenarioPayload,
-) => {
-  const { targetUrl } = payload;
+export const createShortenedUrlDisasterScenario = async ({
+  targetUrl,
+}: ICreateShortenedUrlDisasterScenarioPayload) => {
   const slug = await recursivelyFindAnAvailableSlug();
   return await shortenedUrlRepository.save({ data: { slug, target_url: targetUrl } });
 };
