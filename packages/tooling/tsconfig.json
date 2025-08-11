@@ -7,7 +7,7 @@
     "module": "commonjs",
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "strict": true,
+    "strict": true
   },
-  "include": ["src/**/*", "eslint.config.js", "prettier.config.js"]
+  "include": ["eslint.config.js", "prettier.config.js"]
 }
