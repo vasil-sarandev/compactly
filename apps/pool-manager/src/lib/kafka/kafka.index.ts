@@ -5,8 +5,8 @@ import {
   KAFKA_SLUG_POOL_LOW_COUNT_TOPIC,
   createKafkaTopicsIfMissing,
 } from '@packages/shared/lib';
-import { handleSlugPoolLowCountTransaction } from '@/consumers/low-slug-pool-count';
 import { KAFKA_BOOTSTRAP_SERVER } from '@/env-constants';
+import { slugTopicsConsumer } from '@/components/slug/slug.consumer';
 
 const kafkaConsumer = new KafkaJS.Kafka().consumer({
   'bootstrap.servers': KAFKA_BOOTSTRAP_SERVER,
@@ -26,7 +26,7 @@ const connectKafkaConsumer = async () => {
       const parsedMessageValue = message.value ? JSON.parse(message.value.toString()) : {};
       // add more handlers here
       if (topic === KAFKA_SLUG_POOL_LOW_COUNT_TOPIC) {
-        handleSlugPoolLowCountTransaction(parsedMessageValue);
+        slugTopicsConsumer.handleSlugPoolLowCountTransaction(parsedMessageValue);
       }
     },
   });

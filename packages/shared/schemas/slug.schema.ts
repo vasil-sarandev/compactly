@@ -1,5 +1,5 @@
 import { InferSchemaType, model, Schema } from 'mongoose';
-import { SlugPoolType } from './slug-pool-stat';
+import { SlugPoolType } from './slug-pool-stat.schema';
 
 export const slugSchema = new Schema(
   {

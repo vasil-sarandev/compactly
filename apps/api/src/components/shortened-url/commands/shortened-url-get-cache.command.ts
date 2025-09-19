@@ -7,9 +7,9 @@ import {
 import { IPageView, IShortenedURL } from '@packages/shared/schemas';
 import { Types } from 'mongoose';
 import { shortenedUrlRepository } from '../shortened-url.repository';
-import { redisClient } from '@/lib/redis';
-import { kafka } from '@/lib/kafka';
-import { AppError } from '@/middlewares/middlewares.error';
+import { redisClient } from '@/lib/redis/redis.index';
+import { kafka } from '@/lib/kafka/kafka.index';
+import { AppError } from '@/middlewares/error.middleware';
 
 export type GetShortenedUrlPayload = Omit<WithoutTimestamps<IPageView>, 'shortenedUrlId'> & {
   slug: string;

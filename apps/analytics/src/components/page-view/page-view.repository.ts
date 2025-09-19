@@ -1,5 +1,5 @@
 import { IPageView, PageView } from '@packages/shared/schemas';
-import { CreateQueryPayload } from '@/lib/util';
+import { CreateQueryPayload } from '@/lib/shared';
 
 class PageViewRepository {
   constructor() {}

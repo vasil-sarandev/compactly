@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { shortenedUrlController } from './shortened-url.controller';
-import { authMiddleware } from '@/middlewares/middlewares.auth';
+import { authMiddleware } from '@/middlewares/auth.middleware';
 
 export const shortenedUrlRouter = Router();
 

@@ -6,7 +6,7 @@ import {
   KAFKA_PAGEVIEW_TOPIC,
 } from '@packages/shared/lib';
 import { KAFKA_BOOTSTRAP_SERVER } from '@/env-constants';
-import { handlePageViewTopic } from '@/consumers/page-view';
+import { pageViewConsumer } from '@/components/page-view/page-view.consumer';
 
 const kafkaConsumer = new KafkaJS.Kafka().consumer({
   'bootstrap.servers': KAFKA_BOOTSTRAP_SERVER,
@@ -26,7 +26,7 @@ const connectKafkaConsumer = async () => {
       const parsedMessageValue = message.value ? JSON.parse(message.value.toString()) : {};
       // add more handlers here
       if (topic === KAFKA_PAGEVIEW_TOPIC) {
-        handlePageViewTopic(parsedMessageValue);
+        pageViewConsumer.handlePageViewTopic(parsedMessageValue);
       }
     },
   });

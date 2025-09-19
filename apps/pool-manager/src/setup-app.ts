@@ -1,5 +1,5 @@
-import { connectKafka } from './lib/kafka';
-import { connectMongoose } from './lib/mongoose';
+import { connectKafka } from './lib/kafka/kafka.index';
+import { connectMongoose } from './lib/mongoose/mongoose.index';
 
 const setupAppServices = async () => {
   try {

@@ -1,6 +1,6 @@
-import { connectKafka } from './lib/kafka';
-import { connectMongoose } from './lib/mongoose';
-import { connectRedis } from './lib/redis';
+import { connectKafka } from './lib/kafka/kafka.index';
+import { connectMongoose } from './lib/mongoose/mongoose.index';
+import { connectRedis } from './lib/redis/redis.index';
 
 const setupAppServices = async () => {
   try {

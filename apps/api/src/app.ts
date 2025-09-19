@@ -1,8 +1,8 @@
 import express from 'express';
 import { PORT } from './env-constants';
 import { appRouter } from './components/app-router';
-import { errorMiddleware } from './middlewares/middlewares.error';
-import { loggerMiddleware } from './middlewares/middlewares.logger';
+import { errorMiddleware } from './middlewares/error.middleware';
+import { loggerMiddleware } from './middlewares/logger.middleware';
 import { setupApplication } from './setup-app';
 
 const startServer = async () => {
