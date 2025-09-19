@@ -1,21 +1,21 @@
 import {
-  IPageViewTopicMessage,
-  IWithId,
-  IWithoutTimestamps,
+  PageViewTopicMessage,
+  WithId,
+  WithoutTimestamps,
   KAFKA_PAGEVIEW_TOPIC,
 } from '@packages/shared/lib';
 import { IPageView, IShortenedURL } from '@packages/shared/schemas';
 import { Types } from 'mongoose';
-import { shortenedUrlRepository } from '../../repository';
+import { shortenedUrlRepository } from '../shortened-url.repository';
 import { redisClient } from '@/lib/redis';
 import { kafka } from '@/lib/kafka';
-import { AppError } from '@/middlewares/error';
+import { AppError } from '@/middlewares/middlewares.error';
 
-export type IGetShortenedUrlPayload = Omit<IWithoutTimestamps<IPageView>, 'shortenedUrlId'> & {
+export type GetShortenedUrlPayload = Omit<WithoutTimestamps<IPageView>, 'shortenedUrlId'> & {
   slug: string;
 };
 
-const publishPageViewEvent = (message: IPageViewTopicMessage) => {
+const publishPageViewEvent = (message: PageViewTopicMessage) => {
   // notifies analytics microservice for pageView event
   kafka.send({
     topic: KAFKA_PAGEVIEW_TOPIC,
@@ -23,11 +23,11 @@ const publishPageViewEvent = (message: IPageViewTopicMessage) => {
   });
 };
 
-export const getShortenedUrlCacheAside = async ({ slug, ...rest }: IGetShortenedUrlPayload) => {
+export const getShortenedUrlCacheAside = async ({ slug, ...rest }: GetShortenedUrlPayload) => {
   const cached = await redisClient.get(slug);
 
   if (cached) {
-    const parsed: IWithId<IShortenedURL> = JSON.parse(cached);
+    const parsed: WithId<IShortenedURL> = JSON.parse(cached);
     publishPageViewEvent({ ...rest, shortenedUrlId: new Types.ObjectId(parsed._id) });
     return parsed;
   }

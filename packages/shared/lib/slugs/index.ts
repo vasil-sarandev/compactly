@@ -1,2 +1,2 @@
-export * from './config';
-export * from './generate-slugs';
+export * from './slugs.config';
+export * from './slugs.generate-slugs';

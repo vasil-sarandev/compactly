@@ -1,1 +1,1 @@
-export * from './generics';
+export * from './mongoose.generics';

@@ -1,4 +1,4 @@
-import { SLUG_AVAILABLE_CHARS, SLUG_LENGTH } from './config';
+import { SLUG_AVAILABLE_CHARS, SLUG_LENGTH } from './slugs.config';
 
 export const generateSlug = (len = SLUG_LENGTH): string => {
   const randomChars: string[] = [];

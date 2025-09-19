@@ -1,18 +1,15 @@
 import {
-  IMongooseCreateQueryPayload,
-  IMongooseGetQueryPayload,
-  IMongooseUpdateQueryPayload,
-  IWithoutTimestamps,
+  MongooseCreateQueryPayload,
+  MongooseGetQueryPayload,
+  MongooseUpdateQueryPayload,
+  WithoutTimestamps,
 } from '@packages/shared/lib';
 import { InsertManyOptions } from 'mongoose';
 
-export type IGetQueryPayload<T> = IMongooseGetQueryPayload<T>;
-export type IUpdateQueryPayload<T> = IMongooseUpdateQueryPayload<T>;
-export type ICreateQueryPayload<T> = IMongooseCreateQueryPayload<T>;
-export type ICreateManyQueryPayload<T> = Omit<
-  IMongooseCreateQueryPayload<T>,
-  'session' | 'data'
-> & {
-  data: IWithoutTimestamps<T>[];
+export type GetQueryPayload<T> = MongooseGetQueryPayload<T>;
+export type UpdateQueryPayload<T> = MongooseUpdateQueryPayload<T>;
+export type CreateQueryPayload<T> = MongooseCreateQueryPayload<T>;
+export type CreateManyQueryPayload<T> = Omit<MongooseCreateQueryPayload<T>, 'session' | 'data'> & {
+  data: WithoutTimestamps<T>[];
   options: InsertManyOptions;
 };

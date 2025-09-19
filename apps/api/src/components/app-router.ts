@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { shortenedUrlRouter } from './shortened-url/router';
-import { shortenedUrlController } from './shortened-url/controller';
+import { shortenedUrlRouter } from './shortened-url/shortened-url.router';
+import { shortenedUrlController } from './shortened-url/shortened-url.controller';
 
 export const appRouter = Router();
 

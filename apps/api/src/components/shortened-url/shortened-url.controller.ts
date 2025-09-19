@@ -1,17 +1,19 @@
 import { NextFunction, Request, Response } from 'express';
-import { SlugPoolType } from '@packages/shared/schemas';
-import { shortenedURLService } from './service';
-import { IAuthenticatedRequest } from '@/middlewares/auth';
+import { IShortenedURL, SlugPoolType } from '@packages/shared/schemas';
+import { shortenedURLService } from './shortened-url.service';
 
 // dont use 301, it's permanent redirect - browser will no longer hit the service after it receives it once.
 const TEMPORARY_REDIRECT_HTTP_STATUS = 302;
 
 class ShortenedURLController {
-  getShortenedUrlBySlug = async (req: Request, res: Response, next: NextFunction) => {
+  getShortenedUrlBySlug = async (
+    req: Request<{ slug: string }>,
+    res: Response,
+    next: NextFunction,
+  ) => {
     try {
-      const slug = req.params.slug as string;
       const shortenedUrl = await shortenedURLService.getShortenedUrl({
-        slug,
+        slug: req.params.slug,
         ip: req.ip || '',
         userAgent: req.get('User-Agent') || '',
         referrer: req.get('Referer') || '',
@@ -21,7 +23,11 @@ class ShortenedURLController {
       next(err);
     }
   };
-  createAnonymousShortenedURL = async (req: Request, res: Response, next: NextFunction) => {
+  createAnonymousShortenedURL = async (
+    req: Request<{}, {}, { targetUrl: string }>,
+    res: Response<IShortenedURL>,
+    next: NextFunction,
+  ) => {
     try {
       const newShortenedUrl = await shortenedURLService.createShortenedUrl({
         targetUrl: req.body.targetUrl,
@@ -33,8 +39,8 @@ class ShortenedURLController {
     }
   };
   createUserShortenedURL = async (
-    req: IAuthenticatedRequest,
-    res: Response,
+    req: Request<{}, {}, { targetUrl: string }>,
+    res: Response<IShortenedURL>,
     next: NextFunction,
   ) => {
     try {

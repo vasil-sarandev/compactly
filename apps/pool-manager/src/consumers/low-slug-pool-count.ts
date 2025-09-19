@@ -1,12 +1,12 @@
 import {
   GENERATE_SLUGS_COUNT,
   generateSlugs,
-  ISlugPoolLowCountTopicMessage,
+  SlugPoolLowCountTopicMessage,
 } from '@packages/shared/lib';
 import mongoose from 'mongoose';
-import { shortenedUrlRepository } from '@/components/shortened-url/repository';
-import { slugPoolStatRepository } from '@/components/slug-pool-stat/repository';
-import { slugRepository } from '@/components/slug/repository';
+import { shortenedUrlRepository } from '@/repositories/shortened-url.repository';
+import { slugPoolStatRepository } from '@/repositories/slug-pool-stat.repository';
+import { slugRepository } from '@/repositories/slug.repository';
 
 // flow for the transaction :
 // 1. generate slugs
@@ -15,9 +15,7 @@ import { slugRepository } from '@/components/slug/repository';
 // unique constraint there won't allow duplicates (use {ordered:false} on insert so errors with constraint don't abort inserting other records)
 // 4. update the slug pool stat collection document count
 // 5. commit work or abort transaction
-export const handleSlugPoolLowCountTransaction = async ({
-  type,
-}: ISlugPoolLowCountTopicMessage) => {
+export const handleSlugPoolLowCountTransaction = async ({ type }: SlugPoolLowCountTopicMessage) => {
   console.log('received message for low slug pool count');
   const session = await mongoose.startSession();
   session.startTransaction();

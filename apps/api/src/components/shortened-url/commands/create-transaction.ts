@@ -1,12 +1,12 @@
 import mongoose, { Types } from 'mongoose';
 import { JwtPayload } from 'jsonwebtoken';
 import { SlugPoolType } from '@packages/shared/schemas';
-import { shortenedUrlRepository } from '../../repository';
-import { AppError } from '@/middlewares/error';
-import { slugRepository } from '@/components/slug/repository';
-import { slugPoolStatRepository } from '@/components/slug-pool-stat/repository';
+import { shortenedUrlRepository } from '../shortened-url.repository';
+import { AppError } from '@/middlewares/middlewares.error';
+import { slugRepository } from '@/components/slug/slug.repository';
+import { slugPoolStatRepository } from '@/components/slug-pool-stat/slug-pool-stat.repository';
 
-export interface ICreateShortenedUrlTransactionPayload {
+interface CreateShortenedUrlTransactionPayload {
   type: SlugPoolType;
   targetUrl: string;
   user?: JwtPayload;
@@ -21,7 +21,7 @@ export const createShortenedUrlTransaction = async ({
   type,
   targetUrl,
   user,
-}: ICreateShortenedUrlTransactionPayload) => {
+}: CreateShortenedUrlTransactionPayload) => {
   const session = await mongoose.startSession();
   session.startTransaction();
 
@@ -41,7 +41,7 @@ export const createShortenedUrlTransaction = async ({
       data: {
         slug: candidateSlug.slug,
         target_url: targetUrl,
-        owner_id: user?.sub ? new Types.ObjectId(user.sub) : null,
+        owner_id: new Types.ObjectId(user!.sub),
       },
       session,
     });

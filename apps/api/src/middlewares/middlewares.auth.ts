@@ -1,13 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import { AppError } from './error';
+import { AppError } from './middlewares.error';
 import { JWT_SECRET } from '@/env-constants';
 
-export interface IAuthenticatedRequest extends Request {
-  user?: JwtPayload;
-}
-
-export const authMiddleware = (req: IAuthenticatedRequest, res: Response, next: NextFunction) => {
+export const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
   try {
     const token = req.headers.authorization;
     if (!token) {

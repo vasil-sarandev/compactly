@@ -1,6 +1,6 @@
 import { KafkaJS } from '@confluentinc/kafka-javascript';
 
-interface ICreateTopicsPayload {
+interface CreateTopicsPayload {
   config: {
     bootstrapServer: string;
     securityProtocol: 'plaintext' | 'ssl' | 'sasl_plaintext' | 'sasl_ssl';
@@ -8,7 +8,7 @@ interface ICreateTopicsPayload {
   topics: string[];
 }
 
-export const createKafkaTopicsIfMissing = async ({ config, topics }: ICreateTopicsPayload) => {
+export const createKafkaTopicsIfMissing = async ({ config, topics }: CreateTopicsPayload) => {
   const kafkaAdmin = new KafkaJS.Kafka().admin({
     'bootstrap.servers': config.bootstrapServer,
     'security.protocol': config.securityProtocol,

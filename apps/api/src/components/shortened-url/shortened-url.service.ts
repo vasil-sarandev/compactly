@@ -1,21 +1,18 @@
 import { JwtPayload } from 'jsonwebtoken';
 import { SlugPoolType } from '@packages/shared/schemas';
 import {
-  ISlugPoolLowCountTopicMessage,
+  SlugPoolLowCountTopicMessage,
   KAFKA_SLUG_POOL_LOW_COUNT_TOPIC,
   SLUG_POOL_LOW_THRESHHOLD_COUNT,
 } from '@packages/shared/lib';
-import { slugPoolStatRepository } from '../../slug-pool-stat/repository';
-import { createShortenedUrlTransaction } from './commands/create-shortenedUrl-transaction';
-import { createShortenedUrlDisasterScenario } from './commands/create-shortenedUrl-disaster';
-import {
-  getShortenedUrlCacheAside,
-  IGetShortenedUrlPayload,
-} from './commands/get-shortenedUrl-cache-aside';
-import { AppError } from '@/middlewares/error';
+import { slugPoolStatRepository } from '../slug-pool-stat/slug-pool-stat.repository';
+import { createShortenedUrlTransaction } from './commands/create-transaction';
+import { createShortenedUrlDisasterScenario } from './commands/create-disaster';
+import { getShortenedUrlCacheAside, GetShortenedUrlPayload } from './commands/get-cache-aside';
+import { AppError } from '@/middlewares/middlewares.error';
 import { kafka } from '@/lib/kafka';
 
-interface ICreateShortenedURLPayload {
+interface CreateShortenedURLPayload {
   user?: JwtPayload;
   targetUrl: string;
   type: SlugPoolType;
@@ -24,11 +21,11 @@ interface ICreateShortenedURLPayload {
 class ShortenedURLService {
   constructor() {}
 
-  getShortenedUrl = async (payload: IGetShortenedUrlPayload) => {
+  getShortenedUrl = async (payload: GetShortenedUrlPayload) => {
     return getShortenedUrlCacheAside(payload);
   };
 
-  createShortenedUrl = async (payload: ICreateShortenedURLPayload) => {
+  createShortenedUrl = async (payload: CreateShortenedURLPayload) => {
     const { targetUrl, user, type } = payload;
 
     const slugPoolStats = await slugPoolStatRepository.findOne({ filter: { type } });
@@ -38,7 +35,7 @@ class ShortenedURLService {
 
     // notify pool manager microservice if low count of slugs are available.
     if (slugPoolStats.availableCount <= SLUG_POOL_LOW_THRESHHOLD_COUNT) {
-      const message: ISlugPoolLowCountTopicMessage = { type };
+      const message: SlugPoolLowCountTopicMessage = { type };
       kafka.send({
         topic: KAFKA_SLUG_POOL_LOW_COUNT_TOPIC,
         messages: [{ value: JSON.stringify(message) }],

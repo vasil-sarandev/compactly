@@ -1,3 +1,3 @@
-export * from './config';
-export * from './create-kafka-topics';
-export * from './messages';
+export * from './kafka.config';
+export * from './kefka.create-topics';
+export * from './kafka.messages';
