@@ -1,0 +1,104 @@
+{
+	"info": {
+		"_postman_id": "2af57c65-2ca4-4c82-81a7-d4d45ba9a371",
+		"name": "compactly",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "45919360",
+		"_collection_link": "https://vasilsarandev.postman.co/workspace/Vasil-Sarandev's-Workspace~f8b56026-3056-41b6-8215-8a19feaca584/collection/45919360-2af57c65-2ca4-4c82-81a7-d4d45ba9a371?action=share&source=collection_link&creator=45919360"
+	},
+	"item": [
+		{
+			"name": "create public shortened url",
+			"request": {
+				"auth": {
+					"type": "jwt",
+					"jwt": [
+						{
+							"key": "algorithm",
+							"value": "HS256",
+							"type": "string"
+						},
+						{
+							"key": "isSecretBase64Encoded",
+							"value": false,
+							"type": "boolean"
+						},
+						{
+							"key": "payload",
+							"value": "{}",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "headerPrefix",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "queryParamKey",
+							"value": "token",
+							"type": "string"
+						},
+						{
+							"key": "header",
+							"value": "{}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "BEARER ewkoirewporew",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"targetUrl\": \"https://google.com\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/shorten-url/public",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"shorten-url",
+						"public"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get shortened url by slug",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/moejyD",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"moejyD"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
