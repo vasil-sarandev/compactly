@@ -24,27 +24,23 @@ Shared Configs/Packages between the apps.
 
 ## Prerequisites
 
-The default run/build commands for the monorepo use containers.
-
-Commands are also exposed that run/build the monorepo without Docker, but you'd have a much easier time running all the applications and shared services by making sure you have Docker installed.
-
-The development Docker compose file also runs images for the shared services like Kafka & Mongo, so you don't have to install/configure these on your machine.
-
-[Docker Desktop - docker.com](https://www.docker.com/products/docker-desktop/)
+- **Node > v22**
+- **Docker**
+  The microservices within the Monorepo are containerized. Commands are exposed that allow you to run them without Docker, but you'll also have to setup your own Kafka/MongoDB instances.
+  [Docker Desktop - docker.com](https://www.docker.com/products/docker-desktop/)
 
 ## Docker Compose setups
 
-For a more convenient Developer Experience, a _docker-compose_ file (docker-compose.dev.yaml) is included that spins up the shared services between the applications so you don't need to install or run them locally.
-
-The applications are containerized and naturally - the production _docker-compose_ file (docker-compose.yaml) doesn't include the shared services. Supposedly you have them running in the cloud or on a VPS at this point.
-
-The docker images for apps are build using Turbo's built in `prune` method that provides us a stripped-down monorepo that only contains the relevant to the specific application files and package.json / package-lock.json. This ensures that installing new dependencies in different apps/packages won't result in different hashes for all application images.
+- **docker-compose.dev.yaml**
+  The Docker Compose setup for development.
+  Runs all microservices in development mode with HMR and also runs the shared services - MongoDB, Redis, Kafka.
+- **docker-compose.yaml**
+  The Docker Compose setup for production.
+  Compiles all microservices and runs them with the production environment inside a Docker Container. Also - doesn't run any shared services because they supposedly live in the Cloud or on a VPS at this point.
 
 ## Running the Applications
 
 Use the `.env.sample` file and create `.env` files in the specific application folders.
-
-Then run the `dev` command that uses Docker and the `./docker-compose.dev.yaml` config. It spins up the shared services between the apps and runs the DEVELOPMENT mode containerized apps with HMR enabled.
 
 ```
 npm run dev
@@ -58,9 +54,7 @@ npm install && npm run turbo:dev
 
 ## Building the Applications / Running in production mode
 
-Use the included in `package.json` command that builds all the applications and creates Docker Images with them which are bundled in a single Docker Container that effectively runs the whole application in production mode.
-
-The build steps are documented in a `.Dockerfile` on an /app level basis.
+The _build_ command compiles all microservices and runs them with their production environment configuration inside a Docker Container.
 
 ```
 npm run build
