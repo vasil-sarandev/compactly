@@ -57,6 +57,8 @@ services:
     networks:
       - internal-net
     entrypoint: "/usr/local/bin/mongo-entrypoint.sh"
+    ports:
+      - '27017:27017'
   redis:
     image: redis:8.0.3
     volumes:
